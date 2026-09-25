@@ -1,5 +1,6 @@
 import React from 'react';
 import { RotationStrategy } from '../types';
+import { Language, TRANSLATIONS } from '../data/translations';
 import { CheckCircle2, TrendingUp, Droplets, Zap, Shield, AlertCircle } from 'lucide-react';
 
 interface StrategyComparisonProps {
@@ -11,18 +12,70 @@ interface StrategyComparisonProps {
   };
   selectedStrategyId: string;
   onSelectStrategy: (strat: RotationStrategy) => void;
+  lang: Language;
 }
 
 export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
   strategies,
   selectedStrategyId,
   onSelectStrategy,
+  lang,
 }) => {
+  const t = TRANSLATIONS[lang];
+
   const strategyList = [
-    { key: 'soilBuilder', data: strategies.soilBuilder, tag: 'Recommended for Soil Restoration' },
-    { key: 'climateShield', data: strategies.climateShield, tag: 'Recommended for Water Deficit' },
-    { key: 'balancedProfit', data: strategies.balancedProfit, tag: 'Recommended for Cash Flow' },
-    { key: 'conventional', data: strategies.conventional, tag: 'Current Conventional Baseline' },
+    {
+      key: 'soilBuilder',
+      data: strategies.soilBuilder,
+      title: t.planSoilBuilder,
+      tag:
+        lang === 'ur'
+          ? 'زمین سدھار (نائٹروجن بحالی)'
+          : lang === 'hi'
+          ? 'मिट्टी सुधारक (खाद बचत)'
+          : lang === 'pa'
+          ? 'ਜ਼ਮੀਨ ਸੁਧਾਰਕ'
+          : 'Recommended for Soil Restoration',
+    },
+    {
+      key: 'climateShield',
+      data: strategies.climateShield,
+      title: t.planDroughtShield,
+      tag:
+        lang === 'ur'
+          ? 'کم پانی اور خشک سالی کے لیے'
+          : lang === 'hi'
+          ? 'कम पानी / सूखा रक्षक'
+          : lang === 'pa'
+          ? 'ਸੋਕਾ ਰੱਖਿਅਕ'
+          : 'Recommended for Water Deficit',
+    },
+    {
+      key: 'balancedProfit',
+      data: strategies.balancedProfit,
+      title: t.planProfit,
+      tag:
+        lang === 'ur'
+          ? 'منافع بخش اور غذائی تحفظ'
+          : lang === 'hi'
+          ? 'संतुलित मुनाफा व सुरक्षा'
+          : lang === 'pa'
+          ? 'ਮੁਨਾਫੇ ਵਾਲਾ ਚੱਕਰ'
+          : 'Recommended for Cash Flow',
+    },
+    {
+      key: 'conventional',
+      data: strategies.conventional,
+      title: t.planBaseline,
+      tag:
+        lang === 'ur'
+          ? 'روایتی کاشتکاری (پرانا طریقہ)'
+          : lang === 'hi'
+          ? 'पारंपरिक पुरानी खेती'
+          : lang === 'pa'
+          ? 'ਰਵਾਇਤੀ ਪੁਰਾਣੀ ਖੇਤੀ'
+          : 'Current Conventional Baseline',
+    },
   ];
 
   return (
@@ -30,17 +83,25 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h2 className="text-sm font-semibold tracking-wide text-zinc-100">
-            Explored Multi-Year Rotation Strategies
+            {lang === 'ur'
+              ? 'ناسا ڈیٹا کی بنیاد پر کثیر سالہ فصلی چکر'
+              : lang === 'hi'
+              ? 'नासा डेटा आधारित बहु-वर्षीय फसल चक्र'
+              : 'Explored Multi-Year Rotation Strategies'}
           </h2>
           <p className="text-xs text-zinc-400">
-            Comparative analysis evaluated against NASA Earth Observations & Local Soil Invariants
+            {lang === 'ur'
+              ? 'ناسا سیٹلائٹ مشاہدات اور مقامی مٹی کی بنیاد پر تقابلی جائزہ'
+              : lang === 'hi'
+              ? 'नासा उपग्रह डेटा और मिट्टी के आधार पर तुलनात्मक विश्लेषण'
+              : 'Comparative analysis evaluated against NASA Earth Observations & Local Soil Invariants'}
           </p>
         </div>
       </div>
 
       {/* Grid of Strategy Cards */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
-        {strategyList.map(({ key, data, tag }) => {
+        {strategyList.map(({ key, data, title, tag }) => {
           const isSelected = selectedStrategyId === data.id;
           const isConventional = key === 'conventional';
 
@@ -87,7 +148,7 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
 
               {/* Title & Description */}
               <h3 className="mt-3 text-sm font-semibold text-zinc-100">
-                {data.title}
+                {title}
               </h3>
               <p className="mt-1 line-clamp-2 text-xs text-zinc-400 leading-relaxed">
                 {data.description}
@@ -99,7 +160,7 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
                 <div>
                   <span className="text-[11px] text-zinc-400 flex items-center gap-1">
                     <Zap className="h-3 w-3 text-emerald-400" />
-                    3-Yr Nitrogen
+                    {lang === 'ur' ? 'نائٹروجن بچت' : lang === 'hi' ? 'नाइट्रोजन बचत' : '3-Yr Nitrogen'}
                   </span>
                   <p
                     className={`font-mono font-semibold ${
@@ -117,12 +178,12 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
                 <div>
                   <span className="text-[11px] text-zinc-400 flex items-center gap-1">
                     <Droplets className="h-3 w-3 text-sky-400" />
-                    Water Saved
+                    {t.waterSaved}
                   </span>
                   <p className="font-mono font-semibold text-sky-400">
                     {data.total3YearWaterSavedM3PerHa > 0
                       ? `+${data.total3YearWaterSavedM3PerHa.toLocaleString()} m³`
-                      : '0 m³ (Baseline)'}
+                      : '0 m³'}
                   </p>
                 </div>
 
@@ -130,7 +191,7 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
                 <div>
                   <span className="text-[11px] text-zinc-400 flex items-center gap-1">
                     <TrendingUp className="h-3 w-3 text-amber-400" />
-                    Soil Health
+                    {t.soilHealth}
                   </span>
                   <p className="font-mono font-semibold text-zinc-200">
                     {data.soilHealthIndex} / 100
@@ -141,7 +202,7 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
                 <div>
                   <span className="text-[11px] text-zinc-400 flex items-center gap-1">
                     <Shield className="h-3 w-3 text-rose-400" />
-                    Climate Risk
+                    {lang === 'ur' ? 'موسمی خطرہ' : lang === 'hi' ? 'मौसम जोखिम' : 'Climate Risk'}
                   </span>
                   <p
                     className={`font-mono font-semibold ${
@@ -156,14 +217,14 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
               {/* Action Indicator */}
               <div className="mt-3 flex items-center justify-between border-t border-zinc-800/80 pt-2 text-[11px]">
                 <span className="text-zinc-400">
-                  {data.seasons.length} Seasons Sequence
+                  {data.seasons.length} {t.seasonsCount}
                 </span>
                 <span
                   className={`font-medium ${
                     isSelected ? 'text-emerald-400' : 'text-zinc-400 group-hover:text-zinc-200'
                   }`}
                 >
-                  {isSelected ? 'Active Plan' : 'Select Plan'}
+                  {isSelected ? t.activePlan : t.selectThisPlan}
                 </span>
               </div>
             </div>
