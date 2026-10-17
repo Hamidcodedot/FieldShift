@@ -1,5 +1,7 @@
 import { Language, SUPPORTED_LANGUAGES } from '../data/translations';
 import { AgroRegion, SoilProfile } from '../types';
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
+import { Capacitor } from '@capacitor/core';
 
 export interface VoiceAnswer {
   title: string;
@@ -270,20 +272,42 @@ export function processFarmerVoiceQuery(
 }
 
 /**
- * Text-to-speech out loud in any supported language
+ * Text-to-speech out loud in any supported language.
+ * Uses native Android / iOS TTS via Capacitor on mobile,
+ * and falls back to Web Speech API in browser.
  */
-export function speakFarmerResponse(text: string, lang: Language) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return;
+export async function speakFarmerResponse(text: string, lang: Language): Promise<void> {
+  const langObj = SUPPORTED_LANGUAGES.find((l) => l.code === lang);
+  const speechLang = langObj ? langObj.speechCode : 'en-US';
 
-  try {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    const langObj = SUPPORTED_LANGUAGES.find((l) => l.code === lang);
-    utterance.lang = langObj ? langObj.speechCode : 'en-US';
-    utterance.rate = 0.92; // comfortable listening speed
-    utterance.pitch = 1.0;
-    window.speechSynthesis.speak(utterance);
-  } catch (err) {
-    console.warn('SpeechSynthesis error:', err);
+  // 1. Native mobile execution (Android / iOS Capacitor)
+  if (Capacitor.isNativePlatform()) {
+    try {
+      await TextToSpeech.stop();
+      await TextToSpeech.speak({
+        text,
+        lang: speechLang,
+        rate: 0.95,
+        pitch: 1.0,
+        volume: 1.0,
+      });
+      return;
+    } catch (nativeErr) {
+      console.warn('Native Capacitor TextToSpeech error, attempting web fallback:', nativeErr);
+    }
+  }
+
+  // 2. Browser Web Speech API fallback
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = speechLang;
+      utterance.rate = 0.92; // comfortable listening speed
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    } catch (webErr) {
+      console.warn('Web SpeechSynthesis error:', webErr);
+    }
   }
 }
