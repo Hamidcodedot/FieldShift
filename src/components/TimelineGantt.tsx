@@ -12,19 +12,19 @@ export const TimelineGantt: React.FC<TimelineGanttProps> = ({
   onOpenCustomBuilder,
 }) => {
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 shadow-sm">
+    <div className="rounded-xl border border-amber-900/15 bg-white p-4 shadow-none dark:border-stone-800 dark:bg-stone-900/60">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-emerald-400" />
-          <h2 className="text-sm font-semibold tracking-wide text-zinc-100">
+          <Calendar className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
+          <h2 className="font-montserrat text-sm font-bold tracking-wide text-stone-900 dark:text-stone-100">
             {strategy.title} — Seasonal Sequencing Timeline
           </h2>
         </div>
         <button
           onClick={onOpenCustomBuilder}
-          className="flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-800 px-2.5 py-1 text-xs font-medium text-zinc-200 transition hover:border-emerald-500/50 hover:bg-zinc-700"
+          className="btn-asym flex items-center gap-1.5 border border-stone-200 bg-stone-100 px-3 py-1.5 text-xs font-semibold text-stone-800 transition hover:bg-stone-200 active:scale-95 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-200"
         >
-          <Sprout className="h-3.5 w-3.5 text-emerald-400" />
+          <Sprout className="h-3.5 w-3.5 text-emerald-700 dark:text-emerald-400" />
           <span>Customize Rotation</span>
         </button>
       </div>
@@ -40,21 +40,21 @@ export const TimelineGantt: React.FC<TimelineGanttProps> = ({
               key={idx}
               className={`relative flex flex-col justify-between rounded-lg border p-3 transition-all ${
                 isLegume
-                  ? 'border-emerald-500/30 bg-emerald-950/20'
+                  ? 'border-emerald-300 bg-emerald-50/70 dark:border-emerald-500/30 dark:bg-emerald-950/20'
                   : isCover
-                  ? 'border-sky-500/30 bg-sky-950/20'
-                  : 'border-zinc-800 bg-zinc-950/50'
+                  ? 'border-sky-300 bg-sky-50/70 dark:border-sky-500/30 dark:bg-sky-950/20'
+                  : 'border-stone-200 bg-stone-50/60 dark:border-stone-800 dark:bg-stone-950/50'
               }`}
             >
               {/* Top Season Label */}
               <div>
-                <div className="flex items-center justify-between text-[11px] font-medium text-zinc-400">
+                <div className="flex items-center justify-between text-[11px] font-medium text-stone-500 dark:text-stone-400">
                   <span>{slot.seasonName}</span>
-                  <span className="font-mono text-zinc-400">#{idx + 1}</span>
+                  <span className="font-mono text-stone-400">#{idx + 1}</span>
                 </div>
 
                 {/* Crop Name */}
-                <h4 className="mt-2 text-sm font-bold text-zinc-100">
+                <h4 className="mt-2 font-montserrat text-sm font-bold text-stone-900 dark:text-stone-100">
                   {slot.crop.name}
                 </h4>
                 <p className="italic text-[10px] text-zinc-400">

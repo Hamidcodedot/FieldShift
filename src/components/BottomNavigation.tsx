@@ -42,7 +42,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-zinc-950/95 backdrop-blur-md pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-stone-200/90 bg-white/95 backdrop-blur-md pb-safe dark:border-stone-800 dark:bg-stone-950/95">
       <div className="mx-auto flex max-w-md items-center justify-around px-2 py-2">
         {navItems.map((item) => {
           const isActive = currentTab === item.id;
@@ -53,16 +53,16 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
               onClick={() => onSelectTab(item.id)}
               className={`flex flex-col items-center justify-center rounded-lg px-3 py-1.5 transition-all active:scale-90 min-w-16 min-h-12 ${
                 item.isSpecial && !isActive
-                  ? 'text-emerald-400 font-medium'
+                  ? 'text-emerald-700 font-medium dark:text-emerald-400'
                   : isActive
-                  ? 'text-emerald-400 font-bold'
-                  : 'text-zinc-400 hover:text-zinc-200'
+                  ? 'text-emerald-700 font-bold dark:text-emerald-400'
+                  : 'text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200'
               }`}
             >
               <div
                 className={`relative flex items-center justify-center p-1 rounded-full ${
                   item.isSpecial
-                    ? 'bg-emerald-950/80 border border-emerald-500/40 text-emerald-400'
+                    ? 'bg-emerald-50 border border-emerald-600/30 text-emerald-700 dark:bg-emerald-950/80 dark:border-emerald-500/40 dark:text-emerald-400'
                     : ''
                 }`}
               >

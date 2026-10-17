@@ -17,15 +17,15 @@ export const ClimateDashboard: React.FC<ClimateDashboardProps> = ({ climate, reg
   const minTemp = Math.min(...climate.temperatureMonthlyMinC, 0);
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 shadow-sm">
+    <div className="rounded-xl border border-amber-900/15 bg-white p-4 shadow-none dark:border-stone-800 dark:bg-stone-900/60">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <Layers className="h-4 w-4 text-emerald-400" />
-          <h2 className="text-sm font-semibold tracking-wide text-zinc-100">
+          <Layers className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
+          <h2 className="font-montserrat text-sm font-bold tracking-wide text-stone-900 dark:text-stone-100">
             NASA Earth Observations Agroclimatology
           </h2>
         </div>
-        <span className="text-xs text-zinc-400">
+        <span className="text-xs text-stone-500 dark:text-stone-400">
           Source: NASA POWER (MERRA-2 + GEOS-FP)
         </span>
       </div>
@@ -33,18 +33,18 @@ export const ClimateDashboard: React.FC<ClimateDashboardProps> = ({ climate, reg
       {/* KPI Stats Grid */}
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
         {/* Annual Rainfall */}
-        <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-3">
-          <div className="flex items-center justify-between text-zinc-400">
+        <div className="rounded-lg border border-stone-200 bg-stone-50/60 p-3 dark:border-stone-800 dark:bg-stone-950/60">
+          <div className="flex items-center justify-between text-stone-500 dark:text-stone-400">
             <span className="text-xs">Annual Rainfall</span>
-            <CloudRain className="h-4 w-4 text-sky-400" />
+            <CloudRain className="h-4 w-4 text-sky-600 dark:text-sky-400" />
           </div>
           <div className="mt-1 flex items-baseline gap-1">
-            <span className="text-xl font-bold tracking-tight text-zinc-100">
+            <span className="text-xl font-bold tracking-tight text-stone-900 dark:text-stone-100">
               {climate.annualPrecipitationMm}
             </span>
-            <span className="text-xs text-zinc-400">mm/yr</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">mm/yr</span>
           </div>
-          <div className="mt-1 text-[11px] text-zinc-400">
+          <div className="mt-1 text-[11px] text-stone-500 dark:text-stone-400">
             {climate.annualPrecipitationMm < 500
               ? 'Arid / Water-deficit zone'
               : climate.annualPrecipitationMm < 900
@@ -54,70 +54,70 @@ export const ClimateDashboard: React.FC<ClimateDashboardProps> = ({ climate, reg
         </div>
 
         {/* Mean Temperature */}
-        <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-3">
-          <div className="flex items-center justify-between text-zinc-400">
+        <div className="rounded-lg border border-stone-200 bg-stone-50/60 p-3 dark:border-stone-800 dark:bg-stone-950/60">
+          <div className="flex items-center justify-between text-stone-500 dark:text-stone-400">
             <span className="text-xs">Mean Temperature</span>
-            <Thermometer className="h-4 w-4 text-amber-400" />
+            <Thermometer className="h-4 w-4 text-amber-600 dark:text-amber-400" />
           </div>
           <div className="mt-1 flex items-baseline gap-1">
-            <span className="text-xl font-bold tracking-tight text-zinc-100">
+            <span className="text-xl font-bold tracking-tight text-stone-900 dark:text-stone-100">
               {climate.meanAnnualTemperatureC}°
             </span>
-            <span className="text-xs text-zinc-400">C</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">C</span>
           </div>
-          <div className="mt-1 text-[11px] text-zinc-400">
+          <div className="mt-1 text-[11px] text-stone-500 dark:text-stone-400">
             Peak: {Math.max(...climate.temperatureMonthlyMaxC)}°C | Low: {Math.min(...climate.temperatureMonthlyMinC)}°C
           </div>
         </div>
 
         {/* Root-Zone Moisture */}
-        <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-3">
-          <div className="flex items-center justify-between text-zinc-400">
+        <div className="rounded-lg border border-stone-200 bg-stone-50/60 p-3 dark:border-stone-800 dark:bg-stone-950/60">
+          <div className="flex items-center justify-between text-stone-500 dark:text-stone-400">
             <span className="text-xs">Root-Zone Wetness</span>
-            <Droplets className="h-4 w-4 text-emerald-400" />
+            <Droplets className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
           </div>
           <div className="mt-1 flex items-baseline gap-1">
-            <span className="text-xl font-bold tracking-tight text-zinc-100">
+            <span className="text-xl font-bold tracking-tight text-stone-900 dark:text-stone-100">
               {(
                 (climate.rootZoneSoilMoistureMonthly.reduce((a, b) => a + b, 0) / 12) *
                 100
               ).toFixed(0)}
               %
             </span>
-            <span className="text-xs text-zinc-400">saturation</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">saturation</span>
           </div>
-          <div className="mt-1 text-[11px] text-zinc-400">
+          <div className="mt-1 text-[11px] text-stone-500 dark:text-stone-400">
             NASA MERRA-2 (0-100 cm depth)
           </div>
         </div>
 
         {/* Drought Probability */}
-        <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-3">
-          <div className="flex items-center justify-between text-zinc-400">
+        <div className="rounded-lg border border-stone-200 bg-stone-50/60 p-3 dark:border-stone-800 dark:bg-stone-950/60">
+          <div className="flex items-center justify-between text-stone-500 dark:text-stone-400">
             <span className="text-xs">Drought Risk</span>
-            <AlertTriangle className="h-4 w-4 text-rose-400" />
+            <AlertTriangle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
           </div>
           <div className="mt-1 flex items-baseline gap-1">
-            <span className="text-xl font-bold tracking-tight text-rose-400">
+            <span className="text-xl font-bold tracking-tight text-rose-700 dark:text-rose-400">
               {climate.historicalDroughtProbabilityPercent}%
             </span>
-            <span className="text-xs text-zinc-400">historical</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">historical</span>
           </div>
-          <div className="mt-1 text-[11px] text-zinc-400">
+          <div className="mt-1 text-[11px] text-stone-500 dark:text-stone-400">
             Requires drought-shield rotations
           </div>
         </div>
       </div>
 
       {/* Monthly Chart Tabs */}
-      <div className="mt-4 flex items-center justify-between border-b border-zinc-800 pb-2">
+      <div className="mt-4 flex items-center justify-between border-b border-stone-200 pb-2 dark:border-stone-800">
         <div className="flex gap-2">
           <button
             onClick={() => setActiveTab('rainfall')}
             className={`rounded px-2.5 py-1 text-xs font-medium transition ${
               activeTab === 'rainfall'
-                ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-sky-100 text-sky-800 border border-sky-300 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/40'
+                : 'text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200'
             }`}
           >
             Precipitation Cycle (mm)
@@ -126,8 +126,8 @@ export const ClimateDashboard: React.FC<ClimateDashboardProps> = ({ climate, reg
             onClick={() => setActiveTab('temperature')}
             className={`rounded px-2.5 py-1 text-xs font-medium transition ${
               activeTab === 'temperature'
-                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/40'
+                : 'text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200'
             }`}
           >
             Thermal Curve (Tmin - Tmax)
@@ -136,8 +136,8 @@ export const ClimateDashboard: React.FC<ClimateDashboardProps> = ({ climate, reg
             onClick={() => setActiveTab('soil_moisture')}
             className={`rounded px-2.5 py-1 text-xs font-medium transition ${
               activeTab === 'soil_moisture'
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/40'
+                : 'text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200'
             }`}
           >
             NASA Soil Wetness (GWETROOT)

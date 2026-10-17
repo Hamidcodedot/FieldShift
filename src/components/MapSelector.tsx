@@ -115,20 +115,20 @@ export const MapSelector: React.FC<MapSelectorProps> = ({
   }, [selectedLat, selectedLon]);
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 shadow-sm">
+    <div className="rounded-xl border border-amber-900/15 bg-white p-4 shadow-none dark:border-stone-800 dark:bg-stone-900/60">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <Globe className="h-4 w-4 text-emerald-400" />
-          <h2 className="text-sm font-semibold tracking-wide text-zinc-100">
+          <Globe className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
+          <h2 className="font-montserrat text-sm font-bold tracking-wide text-stone-900 dark:text-stone-100">
             Field Location & NASA Earth Footprint
           </h2>
         </div>
 
         {/* Readout */}
-        <div className="flex items-center gap-3 font-mono text-xs text-zinc-400">
-          <span>Lat: <strong className="text-zinc-200">{selectedLat.toFixed(4)}°</strong></span>
-          <span>Lon: <strong className="text-zinc-200">{selectedLon.toFixed(4)}°</strong></span>
-          <span className="hidden sm:inline">NASA Cell: <strong className="text-emerald-400">{snapCoordinateToGrid(selectedLat).toFixed(2)}°, {snapCoordinateToGrid(selectedLon).toFixed(2)}°</strong></span>
+        <div className="flex items-center gap-3 font-mono text-xs text-stone-600 dark:text-stone-400">
+          <span>Lat: <strong className="text-stone-900 dark:text-stone-200">{selectedLat.toFixed(4)}°</strong></span>
+          <span>Lon: <strong className="text-stone-900 dark:text-stone-200">{selectedLon.toFixed(4)}°</strong></span>
+          <span className="hidden sm:inline">NASA Cell: <strong className="text-emerald-700 dark:text-emerald-400">{snapCoordinateToGrid(selectedLat).toFixed(2)}°, {snapCoordinateToGrid(selectedLon).toFixed(2)}°</strong></span>
         </div>
       </div>
 
@@ -140,8 +140,8 @@ export const MapSelector: React.FC<MapSelectorProps> = ({
             onClick={() => onSelectRegion(reg)}
             className={`rounded-md border px-2.5 py-1 text-xs transition active:scale-95 ${
               currentRegion.id === reg.id
-                ? 'border-emerald-500/40 bg-emerald-950/60 text-emerald-300 font-medium'
-                : 'border-zinc-800 bg-zinc-900/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                ? 'border-emerald-600/30 bg-emerald-50 text-emerald-800 font-semibold dark:border-emerald-500/40 dark:bg-emerald-950/60 dark:text-emerald-300'
+                : 'border-stone-200 bg-stone-50/70 text-stone-700 hover:border-stone-300 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900/80 dark:text-stone-400 dark:hover:text-stone-200'
             }`}
           >
             {reg.name.split(' (')[0]}
@@ -150,9 +150,9 @@ export const MapSelector: React.FC<MapSelectorProps> = ({
       </div>
 
       {/* Interactive Map Canvas */}
-      <div className="relative h-64 w-full overflow-hidden rounded-lg border border-zinc-800 sm:h-72">
+      <div className="relative h-64 w-full overflow-hidden rounded-lg border border-stone-200 sm:h-72 dark:border-stone-800">
         <div ref={mapContainerRef} className="h-full w-full" />
-        <div className="absolute bottom-2 right-2 z-1000 rounded bg-zinc-950/80 px-2 py-1 text-[10px] text-zinc-400 backdrop-blur-sm">
+        <div className="absolute bottom-2 right-2 z-1000 rounded bg-white/90 px-2 py-1 text-[10px] text-stone-600 backdrop-blur-sm border border-stone-200 dark:bg-stone-950/80 dark:border-stone-800 dark:text-stone-400">
           Click anywhere on globe to evaluate coordinates
         </div>
       </div>

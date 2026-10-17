@@ -60,6 +60,25 @@ export function App() {
   const [isCustomBuilderOpen, setIsCustomBuilderOpen] = useState<boolean>(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
 
+  // Theme State: Default to ChaiUI White/Light Theme
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('fieldshift_theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('fieldshift_theme', theme);
+  }, [theme]);
+
   // Handler: Select Region
   const handleSelectRegion = (region: AgroRegion) => {
     setCurrentRegion(region);
@@ -127,7 +146,7 @@ export function App() {
   return (
     <div
       dir={lang === 'ur' ? 'rtl' : 'ltr'}
-      className={`min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-emerald-500/30 selection:text-emerald-300 pb-20 ${
+      className={`min-h-screen bg-[#fafafa] text-stone-900 antialiased selection:bg-emerald-100 selection:text-emerald-900 pb-24 transition-colors duration-200 dark:bg-[#0a0a0a] dark:text-stone-100 dark:selection:bg-emerald-950 dark:selection:text-emerald-300 ${
         lang === 'ur' ? 'font-urdu' : ''
       }`}
     >
@@ -141,6 +160,8 @@ export function App() {
         lang={lang}
         onSelectLanguage={handleManualLanguageSelect}
         isAutoDetectedLang={isAutoDetectedLang}
+        theme={theme}
+        onToggleTheme={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
       />
 
       {/* Main Tabbed Container */}

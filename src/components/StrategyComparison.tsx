@@ -82,14 +82,14 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h2 className="text-sm font-semibold tracking-wide text-zinc-100">
+          <h2 className="font-montserrat text-sm font-bold tracking-wide text-stone-900 dark:text-stone-100">
             {lang === 'ur'
               ? 'ناسا ڈیٹا کی بنیاد پر کثیر سالہ فصلی چکر'
               : lang === 'hi'
               ? 'नासा डेटा आधारित बहु-वर्षीय फसल चक्र'
               : 'Explored Multi-Year Rotation Strategies'}
           </h2>
-          <p className="text-xs text-zinc-400">
+          <p className="text-xs text-stone-500 dark:text-stone-400">
             {lang === 'ur'
               ? 'ناسا سیٹلائٹ مشاہدات اور مقامی مٹی کی بنیاد پر تقابلی جائزہ'
               : lang === 'hi'
@@ -109,23 +109,23 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
             <div
               key={data.id}
               onClick={() => onSelectStrategy(data)}
-              className={`cursor-pointer rounded-xl border p-4 transition-all duration-200 ${
+              className={`cursor-pointer rounded-xl border p-4 transition-all duration-200 shadow-none ${
                 isSelected
-                  ? 'border-emerald-500 bg-emerald-950/20 shadow-lg ring-1 ring-emerald-500/50'
+                  ? 'border-emerald-600 bg-emerald-50/40 ring-2 ring-emerald-600/30 dark:border-emerald-500 dark:bg-emerald-950/20'
                   : isConventional
-                  ? 'border-zinc-800 bg-zinc-950/40 opacity-80 hover:opacity-100 hover:border-zinc-700'
-                  : 'border-zinc-800 bg-zinc-900/60 hover:border-zinc-700 hover:bg-zinc-900'
+                  ? 'border-stone-200 bg-stone-50/50 opacity-80 hover:opacity-100 hover:border-stone-300 dark:border-stone-800 dark:bg-stone-950/40'
+                  : 'border-amber-900/15 bg-white hover:border-amber-900/30 hover:bg-stone-50/50 dark:border-stone-800 dark:bg-stone-900/60'
               }`}
             >
               {/* Header Badge */}
               <div className="flex items-start justify-between gap-2">
                 <span
-                  className={`rounded px-1.5 py-0.5 text-[10px] font-semibold tracking-wide ${
+                  className={`rounded px-2 py-0.5 text-[10px] font-semibold tracking-wide ${
                     isConventional
-                      ? 'border border-zinc-700 bg-zinc-800 text-zinc-400'
+                      ? 'border border-stone-200 bg-stone-100 text-stone-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400'
                       : isSelected
-                      ? 'border border-emerald-500/40 bg-emerald-900/60 text-emerald-300'
-                      : 'border border-zinc-700 bg-zinc-800 text-zinc-300'
+                      ? 'border border-emerald-600/30 bg-emerald-100 text-emerald-800 dark:border-emerald-500/40 dark:bg-emerald-900/60 dark:text-emerald-300'
+                      : 'border border-stone-200 bg-stone-100 text-stone-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300'
                   }`}
                 >
                   {tag}
@@ -135,38 +135,38 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
                 <div
                   className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold ${
                     data.overallScore >= 80
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40'
                       : data.overallScore >= 60
-                      ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40'
-                      : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
+                      ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-500/20 dark:text-amber-400 dark:border-amber-500/40'
+                      : 'bg-stone-100 text-stone-600 border border-stone-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700'
                   }`}
                 >
                   <span>{data.overallScore}</span>
-                  <span className="text-[10px] text-zinc-400 font-normal">/100</span>
+                  <span className="text-[10px] text-stone-500 font-normal dark:text-zinc-400">/100</span>
                 </div>
               </div>
 
               {/* Title & Description */}
-              <h3 className="mt-3 text-sm font-semibold text-zinc-100">
+              <h3 className="mt-3 font-montserrat text-sm font-bold text-stone-900 dark:text-stone-100">
                 {title}
               </h3>
-              <p className="mt-1 line-clamp-2 text-xs text-zinc-400 leading-relaxed">
+              <p className="mt-1 line-clamp-2 text-xs text-stone-600 leading-relaxed dark:text-stone-400">
                 {data.description}
               </p>
 
               {/* Core Agronomic Metrics Grid */}
-              <div className="mt-4 grid grid-cols-2 gap-2 border-t border-zinc-800/80 pt-3 text-xs">
+              <div className="mt-4 grid grid-cols-2 gap-2 border-t border-stone-200 pt-3 text-xs dark:border-stone-800">
                 {/* Nitrogen Balance */}
                 <div>
-                  <span className="text-[11px] text-zinc-400 flex items-center gap-1">
-                    <Zap className="h-3 w-3 text-emerald-400" />
+                  <span className="text-[11px] text-stone-500 flex items-center gap-1 dark:text-stone-400">
+                    <Zap className="h-3 w-3 text-emerald-700 dark:text-emerald-400" />
                     {lang === 'ur' ? 'نائٹروجن بچت' : lang === 'hi' ? 'नाइट्रोजन बचत' : '3-Yr Nitrogen'}
                   </span>
                   <p
                     className={`font-mono font-semibold ${
                       data.total3YearNitrogenNetKgPerHa >= 0
-                        ? 'text-emerald-400'
-                        : 'text-rose-400'
+                        ? 'text-emerald-700 dark:text-emerald-400'
+                        : 'text-rose-600 dark:text-rose-400'
                     }`}
                   >
                     {data.total3YearNitrogenNetKgPerHa > 0 ? '+' : ''}
@@ -176,11 +176,11 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
 
                 {/* Water Conserved */}
                 <div>
-                  <span className="text-[11px] text-zinc-400 flex items-center gap-1">
-                    <Droplets className="h-3 w-3 text-sky-400" />
+                  <span className="text-[11px] text-stone-500 flex items-center gap-1 dark:text-stone-400">
+                    <Droplets className="h-3 w-3 text-sky-600 dark:text-sky-400" />
                     {t.waterSaved}
                   </span>
-                  <p className="font-mono font-semibold text-sky-400">
+                  <p className="font-mono font-semibold text-sky-700 dark:text-sky-400">
                     {data.total3YearWaterSavedM3PerHa > 0
                       ? `+${data.total3YearWaterSavedM3PerHa.toLocaleString()} m³`
                       : '0 m³'}
@@ -189,24 +189,24 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
 
                 {/* Soil Health Index */}
                 <div>
-                  <span className="text-[11px] text-zinc-400 flex items-center gap-1">
-                    <TrendingUp className="h-3 w-3 text-amber-400" />
+                  <span className="text-[11px] text-stone-500 flex items-center gap-1 dark:text-stone-400">
+                    <TrendingUp className="h-3 w-3 text-amber-600 dark:text-amber-400" />
                     {t.soilHealth}
                   </span>
-                  <p className="font-mono font-semibold text-zinc-200">
+                  <p className="font-mono font-semibold text-stone-800 dark:text-stone-200">
                     {data.soilHealthIndex} / 100
                   </p>
                 </div>
 
                 {/* Climate Risk */}
                 <div>
-                  <span className="text-[11px] text-zinc-400 flex items-center gap-1">
-                    <Shield className="h-3 w-3 text-rose-400" />
+                  <span className="text-[11px] text-stone-500 flex items-center gap-1 dark:text-stone-400">
+                    <Shield className="h-3 w-3 text-rose-600 dark:text-rose-400" />
                     {lang === 'ur' ? 'موسمی خطرہ' : lang === 'hi' ? 'मौसम जोखिम' : 'Climate Risk'}
                   </span>
                   <p
                     className={`font-mono font-semibold ${
-                      data.climateRiskPenalty > 35 ? 'text-rose-400' : 'text-zinc-300'
+                      data.climateRiskPenalty > 35 ? 'text-rose-600 dark:text-rose-400' : 'text-stone-700 dark:text-stone-300'
                     }`}
                   >
                     {data.climateRiskPenalty} / 100
@@ -215,13 +215,13 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
               </div>
 
               {/* Action Indicator */}
-              <div className="mt-3 flex items-center justify-between border-t border-zinc-800/80 pt-2 text-[11px]">
-                <span className="text-zinc-400">
+              <div className="mt-3 flex items-center justify-between border-t border-stone-200 pt-2 text-[11px] dark:border-stone-800">
+                <span className="text-stone-500 dark:text-stone-400">
                   {data.seasons.length} {t.seasonsCount}
                 </span>
                 <span
                   className={`font-medium ${
-                    isSelected ? 'text-emerald-400' : 'text-zinc-400 group-hover:text-zinc-200'
+                    isSelected ? 'text-emerald-700 font-bold dark:text-emerald-400' : 'text-stone-500 dark:text-stone-400'
                   }`}
                 >
                   {isSelected ? t.activePlan : t.selectThisPlan}

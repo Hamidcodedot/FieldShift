@@ -22,27 +22,27 @@ export const ExportModal: React.FC<ExportModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm print:p-0 print:bg-white">
-      <div className="flex max-h-[92vh] w-full max-w-3xl flex-col rounded-2xl border border-zinc-800 bg-zinc-950 p-6 shadow-2xl overflow-y-auto print:max-h-none print:w-full print:border-none print:bg-white print:text-black print:shadow-none">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm print:p-0 print:bg-white">
+      <div className="flex max-h-[92vh] w-full max-w-3xl flex-col rounded-2xl border border-amber-900/15 bg-white p-6 shadow-xl overflow-y-auto print:max-h-none print:w-full print:border-none print:bg-white print:text-black print:shadow-none dark:border-stone-800 dark:bg-stone-950">
         {/* Header (No print buttons in print view) */}
-        <div className="flex items-center justify-between border-b border-zinc-800 pb-3 print:hidden">
+        <div className="flex items-center justify-between border-b border-stone-200 pb-3 print:hidden dark:border-stone-800">
           <div className="flex items-center gap-2">
-            <FileText className="h-5 w-5 text-emerald-400" />
-            <h2 className="text-base font-bold text-zinc-100">
+            <FileText className="h-5 w-5 text-emerald-700 dark:text-emerald-400" />
+            <h2 className="font-montserrat text-base font-bold text-stone-900 dark:text-stone-100">
               Printable Farmer Action Plan & Agronomic Brief
             </h2>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="flex items-center gap-1.5 rounded-lg border border-emerald-500 bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-500"
+              className="btn-asym flex items-center gap-1.5 bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 active:scale-95 shadow-none"
             >
               <Printer className="h-3.5 w-3.5" />
               <span>Print / Save PDF</span>
             </button>
             <button
               onClick={onClose}
-              className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100"
+              className="rounded-lg p-1 text-stone-500 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-100"
             >
               <X className="h-5 w-5" />
             </button>
@@ -50,20 +50,20 @@ export const ExportModal: React.FC<ExportModalProps> = ({
         </div>
 
         {/* Printable Document Content */}
-        <div className="mt-4 space-y-6 text-zinc-200 print:text-black">
+        <div className="mt-4 space-y-6 text-stone-800 print:text-black dark:text-stone-200">
           {/* Document Header */}
-          <div className="border-b border-zinc-800 pb-4 print:border-zinc-300">
+          <div className="border-b border-stone-200 pb-4 print:border-stone-300 dark:border-stone-800">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-zinc-100 print:text-black">
+                <h1 className="font-montserrat text-xl font-bold tracking-tight text-stone-900 print:text-black dark:text-stone-100">
                   FieldShift: Agro-Ecological Farm Action Plan
                 </h1>
-                <p className="text-xs text-zinc-400 print:text-zinc-600">
+                <p className="text-xs text-stone-500 print:text-stone-600 dark:text-stone-400">
                   Formulated via NASA Earth Observations (POWER & MERRA-2) • Generated on{' '}
                   {new Date().toLocaleDateString()}
                 </p>
               </div>
-              <div className="rounded border border-emerald-500/40 bg-emerald-950/40 px-2 py-1 text-xs font-semibold text-emerald-400 print:border-emerald-600 print:text-emerald-800">
+              <div className="rounded border border-emerald-600/30 bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-800 print:border-emerald-600 print:text-emerald-800 dark:bg-emerald-950/40 dark:border-emerald-500/40 dark:text-emerald-400">
                 NASA Space Apps 2026
               </div>
             </div>
