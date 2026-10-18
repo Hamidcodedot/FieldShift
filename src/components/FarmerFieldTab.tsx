@@ -232,6 +232,7 @@ export const FarmerFieldTab: React.FC<FarmerFieldTabProps> = ({
         onSelectRegion={onSelectRegion}
         selectedLat={selectedLat}
         selectedLon={selectedLon}
+        lang={lang}
       />
     </div>
   );
