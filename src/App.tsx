@@ -9,6 +9,7 @@ import {
   getInitialLanguage,
   persistUserLanguage,
 } from './services/geoLanguage';
+import { getCurrentFarmLocation, findNearestAgroRegion } from './services/geolocationService';
 
 import { Header } from './components/Header';
 import { BottomNavigation, AppTab } from './components/BottomNavigation';
@@ -78,6 +79,32 @@ export function App() {
     }
     localStorage.setItem('fieldshift_theme', theme);
   }, [theme]);
+
+  // Effect: Automatic GPS detection on app launch
+  useEffect(() => {
+    let active = true;
+    getCurrentFarmLocation()
+      .then((res) => {
+        if (!active) return;
+        if (res.latitude !== 0 && res.longitude !== 0 && !res.error) {
+          setSelectedLat(res.latitude);
+          setSelectedLon(res.longitude);
+
+          const nearest = findNearestAgroRegion(res.latitude, res.longitude, AGRO_REGIONS);
+          if (nearest) {
+            setCurrentRegion(nearest);
+            setSoil(nearest.typicalSoil);
+          }
+        }
+      })
+      .catch(() => {
+        // Graceful fallback to initial default region
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // Handler: Select Region
   const handleSelectRegion = (region: AgroRegion) => {
