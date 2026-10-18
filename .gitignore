@@ -26,4 +26,9 @@ dist-ssr
 *.sln
 *.sw?
 *.apk
-
+*.aar
+local.properties
+.gradle/
+android/.gradle/
+android/build/
+android/app/build/
