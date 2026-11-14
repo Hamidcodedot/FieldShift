@@ -153,7 +153,7 @@ export const FieldAIChatbot: React.FC<FieldAIChatbotProps> = ({
     setIsLoading(true);
 
     try {
-      const response = await generateFieldAiResponse(text, context);
+      const response = await generateFieldAiResponse(text, context, messages);
       setMessages((prev) => [...prev, response]);
     } catch (err) {
       console.error('Error generating AI response:', err);

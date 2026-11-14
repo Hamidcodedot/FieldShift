@@ -1,6 +1,9 @@
+import { Capacitor } from '@capacitor/core';
 import { FarmerFieldProfile, AgroRegion, NasaClimateData, SoilProfile, RotationStrategy } from '../types';
 import { getCropById } from '../data/crops';
 import { formatIrrigationMethod } from './fieldProfileService';
+
+const PRODUCTION_CHAT_ENDPOINT = 'https://field-shift-green.vercel.app/api/chat';
 
 export interface ChatMessage {
   id: string;
@@ -79,16 +82,96 @@ function getGrowthStage(daysElapsed: number, durationDays: number): {
 }
 
 /**
+ * Builds structured field + NASA telemetry payload for the AI Agronomist backend.
+ */
+function buildSerializedFieldContext(context: ChatbotContext) {
+  const { activeField, climate, soil, activeStrategy } = context;
+  const currentCropId = activeField.currentCropHistory?.currentCropId || 'wheat';
+  const currentCrop = getCropById(currentCropId);
+  const daysElapsed = getDaysSinceSowing(activeField.sowingDate);
+  const stageInfo =
+    daysElapsed !== null
+      ? getGrowthStage(daysElapsed, currentCrop?.growthDurationDays || 120).stageName
+      : 'Not specified';
+
+  return {
+    farmName: activeField.farmName,
+    placeName: activeField.placeName || 'Farm',
+    latitude: activeField.latitude,
+    longitude: activeField.longitude,
+    currentCrop: currentCrop?.name || currentCropId,
+    sowingDate: activeField.sowingDate || 'Not specified',
+    daysElapsed,
+    growthStage: stageInfo,
+    soilTexture: activeField.soilTexture || soil.texture,
+    soilOrganicMatter: activeField.soilOrganicMatter || soil.organicMatterPercent,
+    irrigationMethod: formatIrrigationMethod(activeField.irrigationMethod),
+    tempC: climate.currentMonthTempC ?? climate.meanAnnualTemperatureC,
+    annualPrecipitationMm: climate.annualPrecipitationMm,
+    rootZoneWetnessPercent: climate.currentMonthRootZoneWetnessPercent ?? 38,
+    droughtRiskPercent: climate.historicalDroughtProbabilityPercent,
+    strategyTitle: activeStrategy?.title || 'Soil Regenerator',
+    nitrogenSavedBags: activeStrategy
+      ? Math.round(activeStrategy.total3YearNitrogenNetKgPerHa / 23)
+      : 4,
+    waterSavedM3: activeStrategy?.total3YearWaterSavedM3PerHa || 4000,
+    rotationSequence: activeStrategy
+      ? activeStrategy.seasons.map((s) => `${s.seasonId}: ${s.crop.name}`)
+      : [],
+  };
+}
+
+/**
  * Main agronomic AI engine that generates field-grounded advice.
- * If VITE_GEMINI_API_KEY is configured, it attempts a call to Gemini with full field context.
- * Otherwise, it delivers instant, deterministic, peer-reviewed agronomic intelligence.
+ * 1. Calls the secure /api/chat Vercel serverless endpoint (Gemini 2.5 Flash).
+ * 2. Falls back to VITE_GEMINI_API_KEY in local dev if configured.
+ * 3. Falls back to the offline-first deterministic agronomic engine if offline/unavailable.
  */
 export async function generateFieldAiResponse(
   userQuery: string,
-  context: ChatbotContext
+  context: ChatbotContext,
+  recentMessages: ChatMessage[] = []
 ): Promise<ChatMessage> {
-  const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY;
+  const history = recentMessages
+    .filter((m) => m.id && !m.id.startsWith('welcome-') && !m.id.startsWith('switch-') && !m.id.startsWith('err-'))
+    .slice(-6)
+    .map((m) => ({
+      role: (m.sender === 'user' ? 'user' : 'model') as 'user' | 'model',
+      text: m.text,
+    }));
 
+  const endpoint = Capacitor.isNativePlatform() ? PRODUCTION_CHAT_ENDPOINT : '/api/chat';
+
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: userQuery,
+        history,
+        context: buildSerializedFieldContext(context),
+      }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (typeof data?.reply === 'string' && data.reply.trim()) {
+        return {
+          id: `msg-${Date.now()}`,
+          sender: 'assistant',
+          text: data.reply.trim(),
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          fieldId: context.activeField.id,
+          fieldName: context.activeField.farmName,
+          matchedTopic: 'general',
+        };
+      }
+    }
+  } catch (err) {
+    console.warn('Server /api/chat unavailable, checking local/offline fallback:', err);
+  }
+
+  const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY;
   if (apiKey) {
     try {
       const geminiResponse = await callGeminiWithFieldContext(userQuery, context, apiKey);
@@ -104,11 +187,11 @@ export async function generateFieldAiResponse(
         };
       }
     } catch (err) {
-      console.warn('Gemini API call failed, using deterministic agronomic engine fallback:', err);
+      console.warn('Direct Gemini API call failed, using deterministic agronomic engine fallback:', err);
     }
   }
 
-  // Fallback / Default: Offline-first deterministic agronomic intelligence engine
+  // Fallback / Offline-first deterministic agronomic intelligence engine
   return generateDeterministicFieldResponse(userQuery, context);
 }
 
@@ -403,7 +486,7 @@ FARMER'S ACTIVE FIELD PROFILE:
 
 Answer the farmer's question directly using these exact field and satellite numbers. Keep responses under 180 words, actionable and grounded in peer-reviewed agronomy.`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   const payload = {
     contents: [
