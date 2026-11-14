@@ -1,11 +1,14 @@
-# FieldShift: Adapting Farms with NASA Data
+# FieldShift — 24/7 Satellite Farm Intelligence & Crop Rotation Platform
 
-> **2026 NASA Space Apps Challenge Project**  
-> **Challenge:** *Field Shift: Adapting Farms with NASA Data*  
-> **Domain:** Earth Science, Agroclimatology & Decision-Support Software  
-> **Live Web App:** [field-shift-green.vercel.app](https://field-shift-green.vercel.app)  
-> **Android APK:** [Latest GitHub Release](https://github.com/Hamidcodedot/FieldShift/releases/latest)  
-> **Repository:** [github.com/Hamidcodedot/FieldShift](https://github.com/Hamidcodedot/FieldShift)  
+> **"Your farm needs 24/7 surveillance and crop rotation to restore and improve the soil. Our app is here."**
+
+**FieldShift** is an enterprise-grade, open-science precision agriculture platform built for the **2026 NASA International Space Apps Challenge** (*Field Shift: Adapting Farms with NASA Data*). By combining continuous **NASA Earth Observations** with local soil physics, multi-objective rotation optimization, and an on-demand **AI Senior Agronomist**, FieldShift empowers farmers worldwide to protect aquifers, rebuild soil organic carbon, and maximize long-term yield resilience.
+
+| Resource | Link |
+| :--- | :--- |
+| **Live Web & Mobile App** | **[field-shift-green.vercel.app](https://field-shift-green.vercel.app)** |
+| **Android APK (v1.0.0)** | **[Download Latest Release](https://github.com/Hamidcodedot/FieldShift/releases/latest)** |
+| **Source Code** | **[github.com/Hamidcodedot/FieldShift](https://github.com/Hamidcodedot/FieldShift)** |
 
 ---
 
@@ -13,7 +16,7 @@
 
 Farmers worldwide confront shifting thermal regimes, erratic rainfall distributions, depleted aquifers, and degraded soil biology. Continuous monocropping (such as Rice–Wheat in the Indo-Gangetic Plains or Corn–Soy in the US Midwest) accelerates subsoil compaction, soil organic carbon (SOC) loss, and pest vulnerability.
 
-**FieldShift** is an open-science, input-neutral decision-support platform that synthesizes **NASA Earth Observations** with local soil physics, botanical invariants, and farmer priorities. It dynamically formulates, evaluates, and simulates multi-season crop rotation strategies that replenish soil nitrogen, conserve irrigation water, and build climate resilience.
+**FieldShift** acts as a 24/7 digital agronomist and satellite monitoring companion—synthesizing **NASA Earth Observations** with local soil physics, botanical invariants, and farmer priorities to formulate, evaluate, and simulate multi-season crop rotation strategies that replenish soil nitrogen, conserve irrigation water, and build climate resilience.
 
 ---
 
@@ -95,10 +98,10 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
    - Real-time validation alerts for botanical family repetition (preventing Take-all, Corn Rootworm, and Soybean Cyst Nematode buildup).
    - Operational crop calendar tracking active growth phases, planting windows, and harvest timelines.
 
-5. **GPS Field Mapping, Weather & AI Field Assistant:**
+5. **GPS Field Mapping, Weather & AI Senior Agronomist:**
    - Automatic GPS location detection, interactive satellite field boundary drawing, and multi-field profile management.
    - Live 5-day agricultural weather conditions and forecast view.
-   - Built-in AI Field Chatbot and bilingual/voice assistant (with native Android Speech Recognition and Text-to-Speech via Capacitor).
+   - Built-in **AI Senior Agronomist** powered by Google Gemini 2.5 Flash (`/api/chat` serverless backend grounded in live field & NASA telemetry) with automatic offline-first deterministic fallback and native Android Speech Recognition / Text-to-Speech.
 
 6. **Printable Farmer Action Plan:**
    - Generates a field-ready agronomic brief with Rhizobium inoculation protocols, cover crop termination windows, and fertilizer reduction guidelines.
@@ -109,6 +112,7 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
 
 - **Frontend Framework:** React 19 + TypeScript
 - **Build System:** Vite
+- **AI Backend:** Vercel Serverless Function (`/api/chat`) + Google Gemini 2.5 Flash (with offline-first deterministic fallback)
 - **Mobile Runtime:** Capacitor 8 (Android APK: `org.fieldshift.app`)
 - **Styling & Design System:** Tailwind CSS v4 (Strict 8px rhythmic grid, 1px hairline borders, Zero-Emoji invariant)
 - **Vector Iconography:** Lucide React
