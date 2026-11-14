@@ -42,6 +42,37 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall, depleted 
 
 ---
 
+## Platform Preview (Live App Screenshots)
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="./docs/screenshots/01-home-dashboard.png" alt="FieldShift Home & Satellite Field Dashboard" width="100%" />
+      <br />
+      <sub><strong>1. Satellite Field Surveillance & Telemetry</strong></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="./docs/screenshots/02-crop-plan.png" alt="3-Year Multi-Objective Crop Rotation Plan" width="100%" />
+      <br />
+      <sub><strong>2. Multi-Objective 3-Year Crop Rotation & Calendar</strong></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="./docs/screenshots/03-weather-forecast.png" alt="Live Agricultural Weather & Spray Window Advisory" width="100%" />
+      <br />
+      <sub><strong>3. Live 5-Day Agro-Weather & Spray Advisory</strong></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="./docs/screenshots/04-ai-agronomist.png" alt="AI Senior Agronomist Grounded in NASA Data" width="100%" />
+      <br />
+      <sub><strong>4. AI Senior Agronomist (NASA & Field Grounded)</strong></sub>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## How NASA Earth Data Powers FieldShift
 
 FieldShift queries the **NASA POWER API v2** (`climatology/point`, Agroclimatology `AG` community) with `0.5°` spatial grid snapping and `localStorage` caching, falling back automatically to 23 calibrated regional baselines when offline.
