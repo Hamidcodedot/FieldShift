@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-xs: 380px;
+}
 @import "leaflet/dist/leaflet.css";
 
 @layer theme, base, components, utilities;
@@ -7,7 +12,6 @@
   --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-brand: 'Onest', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-urdu: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Nafees Nastaleeq', 'Urdu Typesetting', 'Noto Naskh Arabic', serif;
   
   /* ChaiUI Light / White Theme (Default) */
   --bg-color: #fafafa;
@@ -50,6 +54,13 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+#root {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
 /* Typography Utilities */
 .font-montserrat {
   font-family: var(--font-display) !important;
@@ -57,65 +68,6 @@ body {
 
 .font-brand {
   font-family: var(--font-brand) !important;
-}
-
-/* Urdu Nastaliq Typography & Spacing */
-[dir="rtl"],
-.font-urdu {
-  font-family: var(--font-urdu) !important;
-  letter-spacing: 0px;
-  line-height: 2.05;
-}
-
-[dir="rtl"] h1,
-[dir="rtl"] h2,
-[dir="rtl"] h3,
-.font-urdu h1,
-.font-urdu h2,
-.font-urdu h3 {
-  font-family: var(--font-urdu) !important;
-  line-height: 1.85;
-  padding-bottom: 0.15rem;
-}
-
-[dir="rtl"] p,
-.font-urdu p {
-  font-family: var(--font-urdu) !important;
-  line-height: 2.2;
-}
-
-[dir="rtl"] button,
-.font-urdu button {
-  font-family: var(--font-urdu) !important;
-  line-height: 1.8;
-}
-
-[dir="rtl"] select,
-.font-urdu select,
-[dir="rtl"] option,
-.font-urdu option {
-  font-family: var(--font-urdu) !important;
-}
-
-[dir="rtl"] span,
-.font-urdu span {
-  font-family: inherit;
-}
-
-/* Nastaliq optical size compensation for high legibility */
-[dir="rtl"] .text-xs,
-.font-urdu .text-xs {
-  font-size: 0.8125rem; /* ~13px */
-}
-
-[dir="rtl"] .text-\[10px\],
-.font-urdu .text-\[10px\] {
-  font-size: 0.6875rem; /* ~11px */
-}
-
-[dir="rtl"] .text-\[11px\],
-.font-urdu .text-\[11px\] {
-  font-size: 0.75rem; /* ~12px */
 }
 
 /* ChaiUI Highlight Phrase (One per paragraph) */
@@ -181,6 +133,9 @@ body {
   height: 100%;
   background-color: var(--surface-color);
   font-family: inherit;
+  isolation: isolate;
+  position: relative;
+  z-index: 0;
 }
 
 .leaflet-control-zoom a {
@@ -189,10 +144,26 @@ body {
   border-color: #e4e4e7 !important;
 }
 
+.leaflet-control-zoom a.leaflet-disabled {
+  background-color: #f4f4f5 !important;
+  color: #a1a1aa !important;
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+  pointer-events: none;
+}
+
 .dark .leaflet-control-zoom a {
   background-color: #18181b !important;
   color: #e4e4e7 !important;
   border-color: #27272a !important;
+}
+
+.dark .leaflet-control-zoom a.leaflet-disabled {
+  background-color: #27272a !important;
+  color: #52525b !important;
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+  pointer-events: none;
 }
 
 .leaflet-popup-content-wrapper {

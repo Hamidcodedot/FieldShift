@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Crop, AgroRegion, SoilProfile, FarmerPriorities, NasaClimateData, RotationStrategy } from '../types';
 import { CROPS_DATABASE } from '../data/crops';
 import { evaluateRotationPlan } from '../engine/rotationSolver';
-import { Sparkles, AlertTriangle, CheckCircle, RefreshCw, X } from 'lucide-react';
+import { Sparkles, AlertTriangle, ShieldCheck, X } from 'lucide-react';
 
 interface CustomRotationBuilderProps {
   region: AgroRegion;
@@ -46,14 +46,14 @@ export const CustomRotationBuilder: React.FC<CustomRotationBuilderProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="flex max-h-[90vh] w-full max-w-4xl flex-col rounded-2xl border border-amber-900/15 bg-white p-6 shadow-xl overflow-y-auto dark:border-stone-800 dark:bg-stone-950">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 p-4 backdrop-blur-md">
+      <div className="card-chai relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col p-6 overflow-y-auto bg-white dark:border-stone-800 dark:bg-stone-950 shadow-2xl">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-stone-200 pb-3 dark:border-stone-800">
+        <div className="flex items-center justify-between border-b border-stone-200/70 pb-3 dark:border-stone-800">
           <div className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-emerald-700 dark:text-emerald-400" />
-            <h2 className="font-montserrat text-base font-bold text-stone-900 dark:text-stone-100">
-              Interactive Crop Rotation Sandbox
+            <h2 className="font-montserrat text-base font-semibold text-stone-900 dark:text-stone-100">
+              Interactive crop rotation sandbox
             </h2>
           </div>
           <button
@@ -65,7 +65,7 @@ export const CustomRotationBuilder: React.FC<CustomRotationBuilderProps> = ({
         </div>
 
         <p className="mt-2 text-xs text-stone-600 leading-relaxed dark:text-stone-400">
-          Design your own 6-season rotation sequence. The algorithmic engine evaluates soil nitrogen replenishment, water budget against NASA observations, and botanical disease cycle breaks in real-time.
+          Design your custom 6-season sequence to <span className="highlight">replenish soil nitrogen</span>, conserve water, and disrupt pest cycles with live NASA feedback.
         </p>
 
         {/* 6-Slot Grid */}
@@ -79,22 +79,22 @@ export const CustomRotationBuilder: React.FC<CustomRotationBuilderProps> = ({
             return (
               <div
                 key={idx}
-                className={`rounded-xl border p-3 ${
+                className={`rounded-xl border p-3.5 transition-all ${
                   isFamilyViolation
                     ? 'border-rose-300 bg-rose-50/70 dark:border-rose-500/50 dark:bg-rose-950/20'
-                    : 'border-stone-200 bg-stone-50/60 dark:border-stone-800 dark:bg-stone-900/60'
+                    : 'border-stone-200/80 bg-stone-50/70 dark:border-stone-800 dark:bg-stone-900/40'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
-                  <span>Slot {idx + 1}: {seasonInfo.name} (Yr {yearNum})</span>
-                  <span className="font-mono text-[10px] text-stone-400">{crop.family}</span>
+                  <span className="font-montserrat font-medium">Slot {idx + 1}: {seasonInfo.name} (Yr {yearNum})</span>
+                  <span className="font-mono text-[10px] text-stone-500">{crop.family}</span>
                 </div>
 
                 {/* Dropdown selector */}
                 <select
                   value={crop.id}
                   onChange={(e) => updateSlotCrop(idx, e.target.value)}
-                  className="mt-2 w-full rounded-md border border-stone-200 bg-white px-2 py-1.5 text-xs font-medium text-stone-900 focus:border-emerald-600 focus:outline-none dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
+                  className="mt-2 w-full rounded-lg border border-stone-300 bg-white px-2.5 py-1.5 text-xs font-medium text-stone-900 focus:border-stone-900 focus:outline-none dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-100"
                 >
                   {CROPS_DATABASE.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -106,17 +106,17 @@ export const CustomRotationBuilder: React.FC<CustomRotationBuilderProps> = ({
                 {/* Warnings or Validations */}
                 <div className="mt-2 flex items-center justify-between text-[11px]">
                   {isFamilyViolation ? (
-                    <span className="flex items-center gap-1 text-rose-600 dark:text-rose-400">
+                    <span className="flex items-center gap-1 text-rose-600 dark:text-rose-400 font-medium">
                       <AlertTriangle className="h-3 w-3" />
-                      Repeated Family
+                      Repeated family
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
-                      <CheckCircle className="h-3 w-3" />
-                      Disease Cycle Broken
+                    <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-medium">
+                      <ShieldCheck className="h-3 w-3" />
+                      Disease cycle broken
                     </span>
                   )}
-                  <span className="font-mono text-stone-500 dark:text-stone-400">
+                  <span className="font-mono font-semibold text-stone-700 dark:text-stone-300">
                     {crop.nitrogenFixationKgPerHa > 0
                       ? `+${crop.nitrogenFixationKgPerHa} kg N`
                       : `-${Math.round(crop.nitrogenUptakeKgPerHa * 0.4)} kg N`}
@@ -128,25 +128,25 @@ export const CustomRotationBuilder: React.FC<CustomRotationBuilderProps> = ({
         </div>
 
         {/* Live Calculation Preview Banner */}
-        <div className="mt-6 rounded-xl border border-stone-200 bg-stone-50/70 p-4 dark:border-stone-800 dark:bg-stone-900/60">
+        <div className="mt-6 rounded-xl border border-stone-200/80 bg-stone-50/70 p-4 dark:border-stone-800 dark:bg-stone-900/40">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Live Simulation Output
+              <span className="font-montserrat text-xs font-semibold uppercase tracking-wider text-stone-900 dark:text-stone-100">
+                Live simulation output
               </span>
               <div className="mt-1 flex flex-wrap items-baseline gap-4 text-xs text-stone-700 dark:text-stone-300">
-                <span>Overall Score: <strong className="text-emerald-700 text-sm dark:text-emerald-400">{customStrategy.overallScore}/100</strong></span>
-                <span>Soil Health: <strong className="text-stone-900 dark:text-stone-100">{customStrategy.soilHealthIndex}/100</strong></span>
-                <span>Water Resilience: <strong className="text-sky-700 dark:text-sky-400">{customStrategy.waterResilienceIndex}/100</strong></span>
-                <span>3-Yr Nitrogen: <strong className={customStrategy.total3YearNitrogenNetKgPerHa >= 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}>{customStrategy.total3YearNitrogenNetKgPerHa > 0 ? '+' : ''}{customStrategy.total3YearNitrogenNetKgPerHa} kg/ha</strong></span>
-                <span>Water Saved: <strong className="text-sky-700 dark:text-sky-300">+{customStrategy.total3YearWaterSavedM3PerHa.toLocaleString()} m³</strong></span>
+                <span>Overall score: <strong className="font-montserrat text-stone-900 text-sm dark:text-stone-100">{customStrategy.overallScore}/100</strong></span>
+                <span>Soil health: <strong className="font-montserrat text-stone-900 dark:text-stone-100">{customStrategy.soilHealthIndex}/100</strong></span>
+                <span>Water resilience: <strong className="font-montserrat text-sky-700 dark:text-sky-400">{customStrategy.waterResilienceIndex}/100</strong></span>
+                <span>3-Yr nitrogen: <strong className={`font-montserrat ${customStrategy.total3YearNitrogenNetKgPerHa >= 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>{customStrategy.total3YearNitrogenNetKgPerHa > 0 ? '+' : ''}{customStrategy.total3YearNitrogenNetKgPerHa} kg/ha</strong></span>
+                <span>Water saved: <strong className="font-montserrat text-sky-700 dark:text-sky-400">+{customStrategy.total3YearWaterSavedM3PerHa.toLocaleString()} m³</strong></span>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={onClose}
-                className="rounded-lg border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
+                className="btn-asym-mirror border border-stone-300 bg-transparent px-3.5 py-1.5 font-montserrat text-xs font-medium text-stone-700 hover:bg-stone-100 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
               >
                 Cancel
               </button>
@@ -155,9 +155,9 @@ export const CustomRotationBuilder: React.FC<CustomRotationBuilderProps> = ({
                   onSaveCustomStrategy(customStrategy);
                   onClose();
                 }}
-                className="btn-asym bg-emerald-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 active:scale-95 shadow-none"
+                className="btn-asym inline-flex min-h-[36px] items-center bg-stone-900 px-4 py-1.5 font-montserrat text-xs font-semibold text-white transition hover:bg-stone-800 active:scale-95 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-100"
               >
-                Apply As Active Strategy
+                Apply as active strategy
               </button>
             </div>
           </div>

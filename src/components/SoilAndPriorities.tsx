@@ -66,8 +66,9 @@ export const SoilAndPriorities: React.FC<SoilAndPrioritiesProps> = ({
               className="mt-1 w-full rounded-md border border-zinc-800 bg-zinc-950 px-2.5 py-1.5 text-xs text-zinc-200 focus:border-emerald-500 focus:outline-none"
             >
               <option value="groundwater_borewell">Groundwater Tubewell / Borewell</option>
-              <option value="canal_surface">Canal Surface Network</option>
-              <option value="rainfed">Strictly Rainfed (Dryland)</option>
+              <option value="canal_surface">Canal Surface Network (Nehri Pani)</option>
+              <option value="hybrid_conjunctive">Hybrid Conjunctive (Canal + Tubewell)</option>
+              <option value="rainfed">Strictly Rainfed (Barani)</option>
               <option value="drip_precision">Precision Drip / Micro-irrigation</option>
             </select>
           </div>
