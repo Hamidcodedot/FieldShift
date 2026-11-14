@@ -519,7 +519,7 @@ export function App() {
       </main>
 
       {/* Floating AI Field Assistant Button */}
-      <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-30">
+      <div className="fixed bottom-20 right-4 sm:right-6 z-[45]">
         <button
           type="button"
           onClick={() => setIsChatbotOpen(true)}
