@@ -51,12 +51,42 @@ export interface SoilProfile {
   salinityHazardDsm: number;
 }
 
+export type WaterAccessType = 'groundwater_borewell' | 'canal_surface' | 'rainfed' | 'hybrid_conjunctive' | 'drip_precision';
+
 export interface FarmerPriorities {
   soilHealthWeight: number;    // 0 - 100
   waterConservationWeight: number; // 0 - 100
   economicProfitWeight: number;   // 0 - 100
   climateResilienceWeight: number;// 0 - 100
-  waterAccessType: 'rainfed' | 'groundwater_borewell' | 'canal_surface' | 'drip_precision';
+  waterAccessType: WaterAccessType;
+}
+
+export interface FarmerFieldProfile {
+  id: string;
+  isConfigured: boolean;
+  hasCompletedOnboarding?: boolean;
+  farmName: string;
+  farmerName?: string;
+  placeName: string;
+  latitude: number;
+  longitude: number;
+  currentCropHistory: {
+    previousCropId: string;
+    currentCropId: string;
+    patternLabel: string;
+  };
+  irrigationMethod: WaterAccessType;
+  soilTexture: 'loam' | 'clay' | 'sandy_loam';
+  soilOrganicMatter: number;
+  fieldSizeAcres?: number;
+  fieldBoundary?: [number, number][];
+  createdAt?: string;
+  sowingDate?: string;          // ISO date format 'YYYY-MM-DD', e.g. '2026-10-15'
+  targetHarvestDate?: string;   // ISO date format 'YYYY-MM-DD'
+  ureaIntensity?: 'low' | 'moderate' | 'heavy';
+  pesticideFrequency?: 'none' | 'moderate' | 'intensive';
+  sowingStage?: 'germination' | 'vegetative' | 'flowering' | 'maturing';
+  soilHealthScore?: number;
 }
 
 export interface NasaClimateData {
@@ -74,6 +104,12 @@ export interface NasaClimateData {
   meanAnnualTemperatureC: number;
   frostFreeDays: number;
   historicalDroughtProbabilityPercent: number;
+  lastFetchedAt?: string;             // ISO timestamp or formatted fetch time
+  currentMonthName?: string;          // e.g. 'November'
+  currentMonthTempC?: number;         // Authentic 2m temperature for the current month
+  currentMonthPrecipMm?: number;      // Authentic precipitation for current month
+  currentMonthRootZoneWetnessPercent?: number; // Authentic microwave root-zone moisture saturation %
+  currentMonthSolarRadiation?: number;// Solar irradiance in MJ/m²/day
 }
 
 export interface AgroRegion {

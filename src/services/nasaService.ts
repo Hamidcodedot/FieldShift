@@ -1,15 +1,15 @@
-import { NasaClimateData, SoilProfile } from '../types';
+import { NasaClimateData } from '../types';
 import { AGRO_REGIONS } from '../data/regions';
 
 // In-memory cache for fast lookups
 const climateCache = new Map<string, NasaClimateData>();
 
 /**
- * Grid-quantization: Snaps coordinates to NASA POWER 0.5° x 0.5° centroid
- * This groups neighboring fields and maximizes cache hit rates to 95%+
+ * Grid-quantization: Snaps coordinates to 0.05° (~5 km) for intelligent caching,
+ * while preserving exact parcel coordinates for live NASA POWER API requests.
  */
 export function snapCoordinateToGrid(val: number): number {
-  return Math.round(val * 2) / 2;
+  return Math.round(val * 20) / 20;
 }
 
 export function generateCoordKey(lat: number, lon: number): string {
@@ -36,41 +36,71 @@ export function findClosestRegion(lat: number, lon: number) {
   return closest;
 }
 
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
 /**
  * Fetch live NASA POWER Climatology with automatic caching and graceful fallback
  */
-export async function fetchNasaClimatology(lat: number, lon: number): Promise<{
+export async function fetchNasaClimatology(lat: number, lon: number, forceRefresh = false): Promise<{
   data: NasaClimateData;
   source: 'live' | 'cached' | 'fallback';
 }> {
   const snappedLat = snapCoordinateToGrid(lat);
   const snappedLon = snapCoordinateToGrid(lon);
   const cacheKey = generateCoordKey(snappedLat, snappedLon);
+  const currentMonthIdx = new Date().getUTCMonth();
+  const currentMonthName = MONTH_NAMES[currentMonthIdx];
 
-  // 1. Check in-memory cache
-  if (climateCache.has(cacheKey)) {
-    return { data: climateCache.get(cacheKey)!, source: 'cached' };
+  // 1. Check in-memory cache (unless forceRefresh is true)
+  if (!forceRefresh && climateCache.has(cacheKey)) {
+    const cached = climateCache.get(cacheKey)!;
+    return {
+      data: {
+        ...cached,
+        currentMonthName,
+        currentMonthTempC: cached.temperatureMonthlyMeanC[currentMonthIdx],
+        currentMonthPrecipMm: cached.precipitationMonthlyMm[currentMonthIdx],
+        currentMonthRootZoneWetnessPercent: Math.round((cached.rootZoneSoilMoistureMonthly[currentMonthIdx] ?? 0.45) * 100),
+        currentMonthSolarRadiation: Math.round((cached.solarRadiationMonthlyMjPerM2[currentMonthIdx] ?? 18) * 10) / 10,
+      },
+      source: 'cached',
+    };
   }
 
-  // 2. Check localStorage cache
-  try {
-    const saved = localStorage.getItem(`fieldshift_nasa_${cacheKey}`);
-    if (saved) {
-      const parsed = JSON.parse(saved) as NasaClimateData;
-      climateCache.set(cacheKey, parsed);
-      return { data: parsed, source: 'cached' };
+  // 2. Check localStorage cache (unless forceRefresh is true)
+  if (!forceRefresh) {
+    try {
+      const saved = localStorage.getItem(`fieldshift_nasa_${cacheKey}`);
+      if (saved) {
+        const parsed = JSON.parse(saved) as NasaClimateData;
+        climateCache.set(cacheKey, parsed);
+        return {
+          data: {
+            ...parsed,
+            currentMonthName,
+            currentMonthTempC: parsed.temperatureMonthlyMeanC[currentMonthIdx],
+            currentMonthPrecipMm: parsed.precipitationMonthlyMm[currentMonthIdx],
+            currentMonthRootZoneWetnessPercent: Math.round((parsed.rootZoneSoilMoistureMonthly[currentMonthIdx] ?? 0.45) * 100),
+            currentMonthSolarRadiation: Math.round((parsed.solarRadiationMonthlyMjPerM2[currentMonthIdx] ?? 18) * 10) / 10,
+          },
+          source: 'cached',
+        };
+      }
+    } catch (err) {
+      console.warn('LocalStorage access warning:', err);
     }
-  } catch (err) {
-    console.warn('LocalStorage access warning:', err);
   }
 
   // 3. Attempt Live NASA POWER Climatology API Request
-  const params = 'T2M,T2M_MAX,T2M_MIN,PRECTOTCORR,GWETROOT,ALLSKY_SFC_SW_DWN';
-  const url = `https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=${params}&community=AG&longitude=${snappedLon}&latitude=${snappedLat}&format=JSON`;
+  const params = 'T2M,T2M_MAX,T2M_MIN,PRECTOTCORR,GWETROOT,ALLSKY_SFC_SW_DWN,RH2M,WS10M,TS';
+  const url = `https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=${params}&community=AG&longitude=${lon.toFixed(4)}&latitude=${lat.toFixed(4)}&format=JSON`;
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6500); // 6.5s timeout for snappy UX
+    const timeoutId = setTimeout(() => controller.abort(), 7500); // 7.5s timeout for NASA API
 
     const response = await fetch(url, { signal: controller.signal });
     clearTimeout(timeoutId);
@@ -97,9 +127,13 @@ export async function fetchNasaClimatology(lat: number, lon: number): Promise<{
       const totalPrecip = precip.reduce((acc, curr) => acc + curr, 0);
       const meanTemp = tMean.reduce((acc, curr) => acc + curr, 0) / 12;
 
+      const now = new Date();
+      const formattedTimestamp = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) +
+        ', ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+
       const liveData: NasaClimateData = {
-        latitude: snappedLat,
-        longitude: snappedLon,
+        latitude: lat,
+        longitude: lon,
         elevationMeters: json?.geometry?.coordinates?.[2] ?? 150,
         source: 'nasa_power_live',
         temperatureMonthlyMeanC: tMean,
@@ -111,14 +145,20 @@ export async function fetchNasaClimatology(lat: number, lon: number): Promise<{
         annualPrecipitationMm: totalPrecip,
         meanAnnualTemperatureC: Math.round(meanTemp * 10) / 10,
         frostFreeDays: tMin.filter(t => t > 0).length * 30,
-        historicalDroughtProbabilityPercent: totalPrecip < 500 ? 38 : totalPrecip < 800 ? 24 : 12
+        historicalDroughtProbabilityPercent: totalPrecip < 500 ? 38 : totalPrecip < 800 ? 24 : 12,
+        lastFetchedAt: formattedTimestamp,
+        currentMonthName,
+        currentMonthTempC: tMean[currentMonthIdx],
+        currentMonthPrecipMm: precip[currentMonthIdx],
+        currentMonthRootZoneWetnessPercent: Math.round(gwetroot[currentMonthIdx] * 100),
+        currentMonthSolarRadiation: Math.round(solar[currentMonthIdx] * 10) / 10,
       };
 
       // Save to cache
       climateCache.set(cacheKey, liveData);
       try {
         localStorage.setItem(`fieldshift_nasa_${cacheKey}`, JSON.stringify(liveData));
-      } catch (e) {
+      } catch {
         // quota exceeded or private mode, ignore
       }
 
@@ -134,7 +174,13 @@ export async function fetchNasaClimatology(lat: number, lon: number): Promise<{
     ...closestRegion.cachedClimate,
     latitude: lat,
     longitude: lon,
-    source: 'merra2_climatology'
+    source: 'merra2_climatology',
+    lastFetchedAt: 'Calibrated MERRA-2 Climatology',
+    currentMonthName,
+    currentMonthTempC: closestRegion.cachedClimate.temperatureMonthlyMeanC[currentMonthIdx],
+    currentMonthPrecipMm: closestRegion.cachedClimate.precipitationMonthlyMm[currentMonthIdx],
+    currentMonthRootZoneWetnessPercent: Math.round((closestRegion.cachedClimate.rootZoneSoilMoistureMonthly[currentMonthIdx] ?? 0.45) * 100),
+    currentMonthSolarRadiation: Math.round((closestRegion.cachedClimate.solarRadiationMonthlyMjPerM2[currentMonthIdx] ?? 18) * 10) / 10,
   };
 
   climateCache.set(cacheKey, fallbackData);
@@ -158,12 +204,26 @@ export async function fetchOpenMeteoForecast(lat: number, lon: number): Promise<
     if (!res.ok) return null;
     const data = await res.json();
     
+    // Aggregate 24 hourly volumetric soil moisture readings into daily percentages
+    const surfaceHourly: number[] = data.hourly?.soil_moisture_0_to_1cm || [];
+    const rootZoneHourly: number[] = data.hourly?.soil_moisture_9_to_27cm || [];
+    const dailySurface: number[] = [];
+    const dailyRootZone: number[] = [];
+    for (let d = 0; d < 7; d++) {
+      const sliceS = surfaceHourly.slice(d * 24, (d + 1) * 24);
+      const sliceR = rootZoneHourly.slice(d * 24, (d + 1) * 24);
+      const avgS = sliceS.length > 0 ? sliceS.reduce((a, b) => a + b, 0) / sliceS.length : 0.28;
+      const avgR = sliceR.length > 0 ? sliceR.reduce((a, b) => a + b, 0) / sliceR.length : 0.36;
+      dailySurface.push(Math.round(avgS * 100));
+      dailyRootZone.push(Math.round(avgR * 100));
+    }
+
     return {
       dailyDates: data.daily?.time ?? [],
       et0Mm: data.daily?.et0_fao_evapotranspiration ?? [4.2, 4.5, 4.1, 4.3, 4.6, 4.0, 4.2],
       precipitationMm: data.daily?.precipitation_sum ?? [0, 0, 2.5, 8.0, 1.2, 0, 0],
-      soilMoistureSurfacePercent: [28, 27, 26, 34, 32, 29, 27],
-      soilMoistureRootZonePercent: [36, 35, 35, 38, 38, 37, 36]
+      soilMoistureSurfacePercent: dailySurface,
+      soilMoistureRootZonePercent: dailyRootZone,
     };
   } catch (err) {
     console.warn('Open-Meteo forecast fetch error:', err);
