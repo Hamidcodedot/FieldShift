@@ -1,5 +1,5 @@
-import { Crop, AgroRegion, SoilProfile, FarmerPriorities, RotationStrategy, RotationSeasonSlot, NasaClimateData } from '../types';
-import { CROPS_DATABASE, getCropById } from '../data/crops';
+import { Crop, AgroRegion, SoilProfile, FarmerPriorities, RotationStrategy, RotationSeasonSlot, NasaClimateData, FarmerFieldProfile } from '../types';
+import { getCropById } from '../data/crops';
 
 /**
  * Evaluates an individual rotation plan and returns detailed sub-indices and agronomic metrics
@@ -12,7 +12,8 @@ export function evaluateRotationPlan(
   priorities: FarmerPriorities,
   strategyArchetype: 'soil_builder' | 'climate_shield' | 'balanced_profit' | 'custom',
   title: string,
-  description: string
+  description: string,
+  initialPredecessorCrop?: Crop | null
 ): RotationStrategy {
   const numSeasons = cropsSequence.length;
   const regionSeasons = region.seasons;
@@ -31,7 +32,7 @@ export function evaluateRotationPlan(
 
   for (let i = 0; i < numSeasons; i++) {
     const crop = cropsSequence[i];
-    const prevCrop = i > 0 ? cropsSequence[i - 1] : null;
+    const prevCrop = i > 0 ? cropsSequence[i - 1] : (initialPredecessorCrop || null);
     const seasonInfo = regionSeasons[i % regionSeasons.length];
     const yearNumber = Math.floor(i / regionSeasons.length) + 1;
 
@@ -110,6 +111,12 @@ export function evaluateRotationPlan(
   
   if (priorities.waterAccessType === 'rainfed' && waterSupplyDemandRatio < 0.7) {
     rawWaterScore -= 25;
+  } else if (priorities.waterAccessType === 'hybrid_conjunctive') {
+    rawWaterScore = Math.min(100, rawWaterScore + 10); // Multi-source hybrid canal + tubewell provides peak resilience
+  } else if (priorities.waterAccessType === 'canal_surface') {
+    rawWaterScore = Math.min(100, rawWaterScore + 6);
+  } else if (priorities.waterAccessType === 'groundwater_borewell') {
+    rawWaterScore = Math.min(100, rawWaterScore + 4);
   }
   const waterResilienceIndex = Math.round(Math.min(100, Math.max(10, rawWaterScore)));
 
@@ -178,13 +185,14 @@ export function evaluateRotationPlan(
 }
 
 /**
- * Generate 3 curated archetypal strategies based on regional agro-ecological profile
+ * Generate 3 curated archetypal strategies based on regional agro-ecological profile and farmer field profile
  */
 export function generateCuratedStrategies(
   region: AgroRegion,
   climate: NasaClimateData,
   soil: SoilProfile,
-  priorities: FarmerPriorities
+  priorities: FarmerPriorities,
+  fieldProfile?: FarmerFieldProfile
 ): {
   conventional: RotationStrategy;
   soilBuilder: RotationStrategy;
@@ -198,42 +206,66 @@ export function generateCuratedStrategies(
   const isMediterranean = regId === 'mediterranean';
   const isCerrado = regId === 'cerrado';
 
+  let initialCrop: Crop | null = null;
+  const currId = fieldProfile?.currentCropHistory?.currentCropId;
+  const prevId = fieldProfile?.currentCropHistory?.previousCropId;
+
+  if (currId) {
+    try {
+      initialCrop = getCropById(currId);
+    } catch {
+      // keep null
+    }
+  }
+
   // 1. CONVENTIONAL BASELINE MONOCULTURE
   let convCrops: Crop[] = [];
-  if (isSouthAsia) {
-    // Rice - Wheat - Fallow repeated for 2 years (6 seasons)
-    convCrops = [
-      getCropById('puddle_rice'), getCropById('wheat'), getCropById('puddle_rice'),
-      getCropById('wheat'), getCropById('puddle_rice'), getCropById('wheat')
-    ];
-  } else if (isMidwest) {
-    // Corn - Soy - Corn - Soy - Corn - Soy
-    convCrops = [
-      getCropById('corn_maize'), getCropById('soybean'), getCropById('corn_maize'),
-      getCropById('soybean'), getCropById('corn_maize'), getCropById('soybean')
-    ];
-  } else if (isSahel) {
-    // Sorghum - Fallow - Sorghum - Fallow
-    convCrops = [
-      getCropById('sorghum'), getCropById('sorghum'), getCropById('sorghum'),
-      getCropById('sorghum'), getCropById('sorghum'), getCropById('sorghum')
-    ];
-  } else if (isMediterranean) {
-    // Wheat - Bare Fallow - Wheat
-    convCrops = [
-      getCropById('wheat'), getCropById('barley'), getCropById('wheat'),
-      getCropById('barley'), getCropById('wheat'), getCropById('barley')
-    ];
-  } else if (isCerrado) {
-    convCrops = [
-      getCropById('soybean'), getCropById('corn_maize'), getCropById('soybean'),
-      getCropById('corn_maize'), getCropById('soybean'), getCropById('corn_maize')
-    ];
-  } else {
-    convCrops = [
-      getCropById('wheat'), getCropById('barley'), getCropById('wheat'),
-      getCropById('barley'), getCropById('wheat'), getCropById('barley')
-    ];
+  if (prevId && currId) {
+    try {
+      const c1 = getCropById(prevId);
+      const c2 = getCropById(currId);
+      convCrops = [c1, c2, c1, c2, c1, c2];
+    } catch {
+      // fallback to regional presets below
+    }
+  }
+
+  if (convCrops.length === 0) {
+    if (isSouthAsia) {
+      // Rice - Wheat - Fallow repeated for 2 years (6 seasons)
+      convCrops = [
+        getCropById('puddle_rice'), getCropById('wheat'), getCropById('puddle_rice'),
+        getCropById('wheat'), getCropById('puddle_rice'), getCropById('wheat')
+      ];
+    } else if (isMidwest) {
+      // Corn - Soy - Corn - Soy - Corn - Soy
+      convCrops = [
+        getCropById('corn_maize'), getCropById('soybean'), getCropById('corn_maize'),
+        getCropById('soybean'), getCropById('corn_maize'), getCropById('soybean')
+      ];
+    } else if (isSahel) {
+      // Sorghum - Fallow - Sorghum - Fallow
+      convCrops = [
+        getCropById('sorghum'), getCropById('sorghum'), getCropById('sorghum'),
+        getCropById('sorghum'), getCropById('sorghum'), getCropById('sorghum')
+      ];
+    } else if (isMediterranean) {
+      // Wheat - Bare Fallow - Wheat
+      convCrops = [
+        getCropById('wheat'), getCropById('barley'), getCropById('wheat'),
+        getCropById('barley'), getCropById('wheat'), getCropById('barley')
+      ];
+    } else if (isCerrado) {
+      convCrops = [
+        getCropById('soybean'), getCropById('corn_maize'), getCropById('soybean'),
+        getCropById('corn_maize'), getCropById('soybean'), getCropById('corn_maize')
+      ];
+    } else {
+      convCrops = [
+        getCropById('wheat'), getCropById('barley'), getCropById('wheat'),
+        getCropById('barley'), getCropById('wheat'), getCropById('barley')
+      ];
+    }
   }
 
   const conventional = evaluateRotationPlan(
@@ -243,9 +275,26 @@ export function generateCuratedStrategies(
     soil,
     priorities,
     'custom',
-    'Conventional Regional Monoculture',
-    `Baseline continuous practice (${region.dominantDegradedMonoculture}). High input dependency and declining soil metrics.`
+    fieldProfile?.currentCropHistory?.patternLabel
+      ? `Current Practice: ${fieldProfile.currentCropHistory.patternLabel.split(' (')[0]}`
+      : 'Conventional Regional Monoculture',
+    fieldProfile?.currentCropHistory?.patternLabel
+      ? `Your field's current baseline rotation. Continuous cereal or monocropping carries higher disease risk and inputs.`
+      : `Baseline continuous practice (${region.dominantDegradedMonoculture}). High input dependency and declining soil metrics.`,
+    initialCrop
   );
+
+  // Helper: Ensures the sequence immediately starts with a break crop relative to standing crop
+  const alignWithPredecessor = (seq: Crop[], predecessor: Crop | null): Crop[] => {
+    if (!predecessor || seq.length === 0) return seq;
+    if (seq[0].family === predecessor.family) {
+      const breakIdx = seq.findIndex((c) => c.family !== predecessor.family);
+      if (breakIdx > 0) {
+        return [...seq.slice(breakIdx), ...seq.slice(0, breakIdx)];
+      }
+    }
+    return seq;
+  };
 
   // 2. STRATEGY A: SOIL REGENERATOR & NITROGEN BUILDER
   let soilBuilderCrops: Crop[] = [];
@@ -286,6 +335,9 @@ export function generateCuratedStrategies(
     ];
   }
 
+  // Dynamically align first season to break disease cycle from farmer's standing crop
+  soilBuilderCrops = alignWithPredecessor(soilBuilderCrops, initialCrop);
+
   const soilBuilder = evaluateRotationPlan(
     soilBuilderCrops,
     region,
@@ -294,7 +346,8 @@ export function generateCuratedStrategies(
     priorities,
     'soil_builder',
     'Soil Regenerator & Nitrogen Builder',
-    'Maximizes symbiotic biological nitrogen fixation, increases organic matter, and breaks plow compaction.'
+    'Maximizes symbiotic biological nitrogen fixation, increases organic matter, and breaks plow compaction.',
+    initialCrop
   );
 
   // 3. STRATEGY B: DROUGHT & CLIMATE RESILIENCE SHIELD
@@ -336,6 +389,8 @@ export function generateCuratedStrategies(
     ];
   }
 
+  climateShieldCrops = alignWithPredecessor(climateShieldCrops, initialCrop);
+
   const climateShield = evaluateRotationPlan(
     climateShieldCrops,
     region,
@@ -344,7 +399,8 @@ export function generateCuratedStrategies(
     priorities,
     'climate_shield',
     'Drought & Climate Resilience Shield',
-    'Engineered for low water footprints, C4 heat-hardy cereals, and deep-taproot survival during flash droughts.'
+    'Engineered for low water footprints, C4 heat-hardy cereals, and deep-taproot survival during flash droughts.',
+    initialCrop
   );
 
   // 4. STRATEGY C: BALANCED HIGH-VALUE MARKET & FOOD SECURITY
@@ -386,6 +442,8 @@ export function generateCuratedStrategies(
     ];
   }
 
+  balancedCrops = alignWithPredecessor(balancedCrops, initialCrop);
+
   const balancedProfit = evaluateRotationPlan(
     balancedCrops,
     region,
@@ -394,7 +452,8 @@ export function generateCuratedStrategies(
     priorities,
     'balanced_profit',
     'Balanced Market & Food Security',
-    'Optimal synthesis of high-value cash returns with timely biological green manure restoration.'
+    'Optimal synthesis of high-value cash returns with timely biological green manure restoration.',
+    initialCrop
   );
 
   return {
