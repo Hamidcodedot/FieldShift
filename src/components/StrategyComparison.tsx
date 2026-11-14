@@ -10,6 +10,7 @@ import {
 import { CROP_LOCALIZED_NAMES } from '../data/translations';
 import { CROPS_DATABASE } from '../data/crops';
 import { calculateDaysSinceSowing } from '../services/fieldProfileService';
+import { NasaLogo } from './NasaLogo';
 import { formatShortDate } from '../services/cropCalendarService';
 import {
   MapPin,
@@ -621,7 +622,7 @@ export const StrategyComparison: React.FC<StrategyComparisonProps> = ({
                 Crop Schedule
               </h3>
               <span className="inline-flex items-center gap-1 rounded-md bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:text-emerald-300">
-                <CheckCircle2 className="h-3 w-3 text-emerald-600" />
+                <NasaLogo className="h-3.5 w-3.5" />
                 NASA Verified
               </span>
             </div>

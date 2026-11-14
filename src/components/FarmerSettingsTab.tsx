@@ -18,6 +18,7 @@ import {
   Info,
 } from 'lucide-react';
 import { FarmerFieldProfile, AgroRegion } from '../types';
+import { NasaLogo } from './NasaLogo';
 
 interface FarmerSettingsTabProps {
   theme: 'light' | 'dark';
@@ -418,7 +419,7 @@ export const FarmerSettingsTab: React.FC<FarmerSettingsTabProps> = ({
       <div className="card-chai p-4 sm:p-5">
         <div className="flex items-center justify-between border-b border-stone-200/70 pb-3 mb-3.5 dark:border-stone-800">
           <div className="flex items-center gap-2">
-            <Info className="h-4 w-4 text-stone-700 dark:text-stone-300 shrink-0" />
+            <NasaLogo className="h-5 w-5" />
             <h3 className="font-montserrat text-xs sm:text-sm font-semibold text-stone-900 dark:text-stone-100">
               About FieldShift
             </h3>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { RotationStrategy, AgroRegion, SoilProfile, NasaClimateData } from '../types';
 import { Printer, X, FileText } from 'lucide-react';
+import { NasaLogo } from './NasaLogo';
 
 interface ExportModalProps {
   strategy: RotationStrategy;
@@ -63,8 +64,9 @@ export const ExportModal: React.FC<ExportModalProps> = ({
                   {new Date().toLocaleDateString()}
                 </p>
               </div>
-              <div className="rounded border border-stone-300 bg-stone-100 px-2 py-1 font-montserrat text-xs font-medium text-stone-800 print:border-stone-400 print:text-black dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200">
-                NASA Space Apps 2026
+              <div className="inline-flex items-center gap-1.5 rounded border border-stone-300 bg-stone-100 px-2 py-1 font-montserrat text-xs font-medium text-stone-800 print:border-stone-400 print:text-black dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200">
+                <NasaLogo className="h-4 w-4" />
+                <span>NASA Space Apps 2026</span>
               </div>
             </div>
           </div>

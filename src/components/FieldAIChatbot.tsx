@@ -20,6 +20,7 @@ import { generateFieldAiResponse, ChatMessage, ChatbotContext } from '../service
 import { speakFarmerResponse, stopSpeaking } from '../services/voiceAssistant';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { Capacitor } from '@capacitor/core';
+import { NasaLogo } from './NasaLogo';
 
 interface FieldAIChatbotProps {
   isOpen: boolean;
@@ -314,6 +315,7 @@ export const FieldAIChatbot: React.FC<FieldAIChatbotProps> = ({
                     Field AI Assistant
                   </h3>
                   <span className="flex items-center gap-1 rounded border border-emerald-300/80 bg-emerald-50 px-1.5 py-0.2 text-[9px] font-semibold text-emerald-800 dark:border-emerald-800/60 dark:bg-emerald-950/40 dark:text-emerald-400">
+                    <NasaLogo className="h-3 w-3" />
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     NASA Live
                   </span>
