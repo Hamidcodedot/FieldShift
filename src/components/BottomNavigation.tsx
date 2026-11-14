@@ -1,49 +1,43 @@
 import React from 'react';
-import { Home, MapPin, Sprout, Mic } from 'lucide-react';
-import { Language, TRANSLATIONS } from '../data/translations';
+import { Home, Layers, RotateCcw, Sun } from 'lucide-react';
 
-export type AppTab = 'home' | 'field' | 'rotation' | 'voice';
+export type AppTab = 'home' | 'field' | 'rotation' | 'weather' | 'settings';
 
 interface BottomNavigationProps {
-  currentTab: AppTab;
+  currentTab: string;
   onSelectTab: (tab: AppTab) => void;
-  lang: Language;
 }
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   currentTab,
   onSelectTab,
-  lang,
 }) => {
-  const t = TRANSLATIONS[lang];
-
-  const navItems: { id: AppTab; label: string; icon: React.ReactNode; isSpecial?: boolean }[] = [
+  const navItems: { id: AppTab; label: string; icon: React.ReactNode }[] = [
     {
       id: 'home',
-      label: t.tabHome,
-      icon: <Home className="h-5 w-5" />,
+      label: 'Home',
+      icon: <Home className="h-4.5 w-4.5" />,
     },
     {
       id: 'field',
-      label: t.tabField,
-      icon: <MapPin className="h-5 w-5" />,
+      label: 'Field',
+      icon: <Layers className="h-4.5 w-4.5" />,
     },
     {
       id: 'rotation',
-      label: t.tabRotation,
-      icon: <Sprout className="h-5 w-5" />,
+      label: 'Crop Plan',
+      icon: <RotateCcw className="h-4.5 w-4.5" />,
     },
     {
-      id: 'voice',
-      label: t.tabVoice,
-      icon: <Mic className="h-5 w-5" />,
-      isSpecial: true,
+      id: 'weather',
+      label: 'Weather',
+      icon: <Sun className="h-4.5 w-4.5" />,
     },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-stone-200/90 bg-white/95 backdrop-blur-md pb-safe dark:border-stone-800 dark:bg-stone-950/95">
-      <div className="mx-auto flex max-w-md items-center justify-around px-2 py-2">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-stone-200/80 bg-white/95 backdrop-blur-md pb-[max(0.5rem,env(safe-area-inset-bottom))] transition-colors duration-200 dark:border-stone-800 dark:bg-[#0a0a0a]/95">
+      <div className="mx-auto grid max-w-md grid-cols-4 items-center px-2 pt-1.5">
         {navItems.map((item) => {
           const isActive = currentTab === item.id;
 
@@ -51,24 +45,17 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
             <button
               key={item.id}
               onClick={() => onSelectTab(item.id)}
-              className={`flex flex-col items-center justify-center rounded-lg px-3 py-1.5 transition-all active:scale-90 min-w-16 min-h-12 ${
-                item.isSpecial && !isActive
-                  ? 'text-emerald-700 font-medium dark:text-emerald-400'
-                  : isActive
-                  ? 'text-emerald-700 font-bold dark:text-emerald-400'
-                  : 'text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200'
+              className={`relative flex min-h-[50px] flex-col items-center justify-center rounded-xl py-1 transition-all active:scale-95 ${
+                isActive
+                  ? 'text-emerald-700 dark:text-emerald-400 font-bold'
+                  : 'text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200 font-medium'
               }`}
+              aria-label={item.label}
             >
-              <div
-                className={`relative flex items-center justify-center p-1 rounded-full ${
-                  item.isSpecial
-                    ? 'bg-emerald-50 border border-emerald-600/30 text-emerald-700 dark:bg-emerald-950/80 dark:border-emerald-500/40 dark:text-emerald-400'
-                    : ''
-                }`}
-              >
-                {item.icon}
-              </div>
-              <span className="mt-1 text-[11px] tracking-tight">{item.label}</span>
+              <div className="flex items-center justify-center">{item.icon}</div>
+              <span className="mt-1 font-montserrat text-[10.5px] tracking-tight">
+                {item.label}
+              </span>
             </button>
           );
         })}
@@ -76,3 +63,5 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
     </nav>
   );
 };
+
+export default BottomNavigation;
