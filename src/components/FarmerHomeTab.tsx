@@ -211,42 +211,47 @@ export const FarmerHomeTab: React.FC<FarmerHomeTabProps> = ({
     <div className="space-y-3.5 sm:space-y-4">
       {/* Judge Evaluation Mode Strip */}
       {activeField.isEvaluationMode && (
-        <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-blue-200/90 bg-blue-50/85 px-3 py-2 dark:border-blue-900/60 dark:bg-blue-950/40">
-          <div className="flex items-center gap-2 min-w-0">
-            <NasaLogo className="h-4 w-4" />
-            <span className="font-montserrat text-[11px] font-bold text-blue-950 dark:text-blue-200 truncate">
-              Evaluation Mode • {activeField.evaluationScenarioLabel || 'Demo'}
-            </span>
+        <div className="rounded-2xl border border-blue-200/90 bg-blue-50/85 px-3 py-2 space-y-1.5 dark:border-blue-900/60 dark:bg-blue-950/40">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <NasaLogo className="h-4 w-4" />
+              <span className="font-montserrat text-[11px] font-bold text-blue-950 dark:text-blue-200 truncate">
+                Evaluation Mode • {activeField.evaluationScenarioLabel || 'Demo'}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              {onLoadDemoFarm && (
+                <select
+                  aria-label="Switch Evaluation Scenario"
+                  value={
+                    EVALUATION_SCENARIOS.find(
+                      (s) => s.profile.evaluationScenarioLabel === activeField.evaluationScenarioLabel
+                    )?.id || EVALUATION_SCENARIOS[0].id
+                  }
+                  onChange={(e) => onLoadDemoFarm(e.target.value)}
+                  className="rounded-lg border border-blue-300/80 bg-white px-2 py-1 font-montserrat text-[10px] font-semibold text-blue-950 outline-none dark:border-blue-800 dark:bg-stone-900 dark:text-blue-200"
+                >
+                  {EVALUATION_SCENARIOS.map((sc) => (
+                    <option key={sc.id} value={sc.id}>
+                      {sc.title}
+                    </option>
+                  ))}
+                </select>
+              )}
+              {onOpenOnboarding && (
+                <button
+                  type="button"
+                  onClick={onOpenOnboarding}
+                  className="rounded-lg bg-blue-900 px-2.5 py-1 font-montserrat text-[10px] font-bold text-white transition hover:bg-blue-800 dark:bg-blue-700"
+                >
+                  Real Setup
+                </button>
+              )}
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            {onLoadDemoFarm && (
-              <select
-                aria-label="Switch Evaluation Scenario"
-                value={
-                  EVALUATION_SCENARIOS.find(
-                    (s) => s.profile.evaluationScenarioLabel === activeField.evaluationScenarioLabel
-                  )?.id || EVALUATION_SCENARIOS[0].id
-                }
-                onChange={(e) => onLoadDemoFarm(e.target.value)}
-                className="rounded-lg border border-blue-300/80 bg-white px-2 py-1 font-montserrat text-[10px] font-semibold text-blue-950 outline-none dark:border-blue-800 dark:bg-stone-900 dark:text-blue-200"
-              >
-                {EVALUATION_SCENARIOS.map((sc) => (
-                  <option key={sc.id} value={sc.id}>
-                    {sc.title}
-                  </option>
-                ))}
-              </select>
-            )}
-            {onOpenOnboarding && (
-              <button
-                type="button"
-                onClick={onOpenOnboarding}
-                className="rounded-lg bg-blue-900 px-2.5 py-1 font-montserrat text-[10px] font-bold text-white transition hover:bg-blue-800 dark:bg-blue-700"
-              >
-                Real Setup
-              </button>
-            )}
-          </div>
+          <p className="text-[10px] leading-snug text-blue-900/80 dark:text-blue-200/80">
+            <strong>Demo Field &amp; Crop Selection:</strong> Parcel boundary, acreage, and standing crop are curated demo samples over real farmland. Climate, weather, and root-zone moisture are live NASA Earth observations.
+          </p>
         </div>
       )}
 

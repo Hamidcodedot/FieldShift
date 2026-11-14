@@ -418,12 +418,17 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
 
                   {showEvalScenarios && (
                     <div className="rounded-2xl border border-blue-200/80 bg-white/95 p-2.5 space-y-1.5 shadow-sm dark:border-blue-900/50 dark:bg-stone-900/90 animate-in fade-in slide-in-from-top-1 duration-150">
-                      <div className="flex items-center justify-between px-1 pb-1">
-                        <span className="font-montserrat text-[10px] font-bold uppercase tracking-wider text-blue-800 dark:text-blue-300 flex items-center gap-1">
-                          <Globe className="h-3 w-3" />
-                          Select Calibrated NASA Telemetry Farm
-                        </span>
-                        <span className="text-[10px] text-stone-400">No GPS needed</span>
+                      <div className="px-1 pb-1 space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-montserrat text-[10px] font-bold uppercase tracking-wider text-blue-800 dark:text-blue-300 flex items-center gap-1">
+                            <Globe className="h-3 w-3" />
+                            Demo Field & Crop Presets
+                          </span>
+                          <span className="text-[10px] text-stone-400">No GPS needed</span>
+                        </div>
+                        <p className="text-[10px] leading-snug text-stone-500 dark:text-stone-400">
+                          Field boundaries and standing crops below are sample demo selections over real croplands; NASA POWER &amp; weather telemetry load live for each coordinate.
+                        </p>
                       </div>
                       {EVALUATION_SCENARIOS.map((scenario) => (
                         <button
