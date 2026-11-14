@@ -12,6 +12,8 @@ import {
   Shield,
   Layers,
   ChevronDown,
+  Globe,
+  Play,
 } from 'lucide-react';
 import {
   AgroRegion,
@@ -21,11 +23,13 @@ import {
 } from '../types';
 import { generateFieldId } from '../services/fieldProfileService';
 import { CROPS_DATABASE } from '../data/crops';
+import { EVALUATION_SCENARIOS } from '../data/evaluationScenarios';
 import { getHumanReadableLocation } from '../services/reverseGeocodeService';
 import { findNearestAgroRegion } from '../services/geolocationService';
 import { computeSoilHealthDiagnostic } from '../services/soilHealthDiagnostic';
 import { MapSelector } from './MapSelector';
 import { CropIcon } from './CropIcon';
+import { NasaLogo } from './NasaLogo';
 
 export type WizardMode = 'onboarding' | 'create' | 'edit';
 
@@ -39,7 +43,7 @@ export interface OnboardingWizardProps {
   initialSoil: SoilProfile;
   initialPriorities: FarmerPriorities;
   onComplete: (profile: FarmerFieldProfile) => void;
-  onSkipToDemo?: () => void;
+  onSkipToDemo?: (scenarioId?: string) => void;
   onClose: () => void;
 }
 
@@ -104,6 +108,7 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
   // Step 2: Crop & Farm Inputs (Step 2 of 3)
   // Step 3: Soil Health Report (Step 3 of 3 • Complete)
   const [step, setStep] = useState<number>(mode === 'onboarding' ? 0 : 1);
+  const [showEvalScenarios, setShowEvalScenarios] = useState<boolean>(false);
 
   // Field parameters draft
   const [selectedLat, setSelectedLat] = useState<number>(existingField ? existingField.latitude : initialLat);
@@ -307,10 +312,14 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
            ========================================================================= */}
         {step === 0 && (
           <div className="flex flex-1 min-h-0 flex-col justify-between overflow-y-auto pr-0.5">
-            {/* Top Chip */}
+            {/* Top Chip with Official NASA Insignia */}
             <div className="flex items-center justify-between shrink-0 mb-1">
-              <span className="rounded-full bg-emerald-100 px-3 py-1 font-montserrat text-[11px] font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                NASA Farm Advisor
+              <span className="inline-flex items-center gap-2 rounded-full border border-blue-200/80 bg-blue-50/80 px-2.5 py-1 font-montserrat text-[11px] font-bold text-blue-950 dark:border-blue-900/60 dark:bg-blue-950/60 dark:text-blue-200">
+                <NasaLogo className="h-5 w-5" />
+                <span>NASA Farm Advisor</span>
+              </span>
+              <span className="font-mono text-[10px] font-semibold text-stone-400 dark:text-stone-500">
+                Space Apps 2026
               </span>
             </div>
 
@@ -391,13 +400,54 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
               </button>
 
               {onSkipToDemo && (
-                <button
-                  type="button"
-                  onClick={onSkipToDemo}
-                  className="btn-asym-mirror w-full inline-flex min-h-[38px] items-center justify-center gap-1.5 border border-stone-300 bg-transparent px-4 text-xs font-medium text-stone-700 hover:bg-stone-100 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
-                >
-                  <span>Try Demo Farm (Punjab)</span>
-                </button>
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowEvalScenarios((prev) => !prev)}
+                    className="btn-asym-mirror w-full inline-flex min-h-[40px] items-center justify-between border border-blue-200/90 bg-blue-50/70 px-3.5 text-xs font-semibold text-blue-950 transition hover:bg-blue-100/80 dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-200 dark:hover:bg-blue-950/70"
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      <NasaLogo className="h-4 w-4" />
+                      <span>Evaluation Mode (Judges & Reviewers)</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">
+                      {showEvalScenarios ? 'Hide' : '3 Presets'}
+                      <ChevronDown className={`h-3.5 w-3.5 transition-transform ${showEvalScenarios ? 'rotate-180' : ''}`} />
+                    </span>
+                  </button>
+
+                  {showEvalScenarios && (
+                    <div className="rounded-2xl border border-blue-200/80 bg-white/95 p-2.5 space-y-1.5 shadow-sm dark:border-blue-900/50 dark:bg-stone-900/90 animate-in fade-in slide-in-from-top-1 duration-150">
+                      <div className="flex items-center justify-between px-1 pb-1">
+                        <span className="font-montserrat text-[10px] font-bold uppercase tracking-wider text-blue-800 dark:text-blue-300 flex items-center gap-1">
+                          <Globe className="h-3 w-3" />
+                          Select Calibrated NASA Telemetry Farm
+                        </span>
+                        <span className="text-[10px] text-stone-400">No GPS needed</span>
+                      </div>
+                      {EVALUATION_SCENARIOS.map((scenario) => (
+                        <button
+                          key={scenario.id}
+                          type="button"
+                          onClick={() => onSkipToDemo(scenario.id)}
+                          className="w-full flex items-center justify-between gap-2 rounded-xl border border-stone-200/80 bg-stone-50/70 px-3 py-2 text-left transition hover:border-emerald-500 hover:bg-emerald-50/60 active:scale-[0.99] dark:border-stone-800 dark:bg-stone-800/50 dark:hover:border-emerald-600 dark:hover:bg-emerald-950/30"
+                        >
+                          <div className="min-w-0">
+                            <div className="font-montserrat text-xs font-bold text-stone-900 dark:text-stone-100 truncate">
+                              {scenario.title}
+                            </div>
+                            <div className="text-[10px] text-stone-500 dark:text-stone-400 truncate">
+                              {scenario.subtitle} • {scenario.highlightMetric}
+                            </div>
+                          </div>
+                          <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-700 text-white">
+                            <Play className="h-3.5 w-3.5 fill-current" />
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>

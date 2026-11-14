@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { AGRO_REGIONS } from './data/regions';
+import { EVALUATION_SCENARIOS } from './data/evaluationScenarios';
 import { AgroRegion, SoilProfile, FarmerPriorities, NasaClimateData, RotationStrategy, FarmerFieldProfile } from './types';
 import { fetchNasaClimatology } from './services/nasaService';
 import { generateCuratedStrategies } from './engine/rotationSolver';
@@ -327,27 +328,26 @@ export function App() {
     }
   };
 
-  const handleLoadDemoFarm = () => {
+  const handleLoadDemoFarm = (scenarioId?: string) => {
+    const scenario =
+      EVALUATION_SCENARIOS.find((s) => s.id === scenarioId) || EVALUATION_SCENARIOS[0];
     const demoField: FarmerFieldProfile = {
       ...activeField,
-      isConfigured: true,
-      hasCompletedOnboarding: true,
-      farmName: 'Punjab Demo Farm (Sample)',
-      placeName: 'Multan District, Punjab',
-      latitude: 30.1904,
-      longitude: 71.4793,
-      fieldSizeAcres: 5,
-      irrigationMethod: 'hybrid_conjunctive',
-      soilTexture: 'loam',
+      ...scenario.profile,
     };
     handleUpdateField(demoField);
-    setSelectedLat(30.1904);
-    setSelectedLon(71.4793);
+    setSelectedLat(demoField.latitude);
+    setSelectedLon(demoField.longitude);
+    setSoil((prev) => ({
+      ...prev,
+      texture: demoField.soilTexture,
+      organicMatterPercent: demoField.soilOrganicMatter,
+    }));
     setIsOnboardingOpen(false);
   };
 
-  const handleSkipToDemo = () => {
-    handleLoadDemoFarm();
+  const handleSkipToDemo = (scenarioId?: string) => {
+    handleLoadDemoFarm(scenarioId);
   };
 
   // State & Handler: Refresh NASA Satellite Observations Directly

@@ -87,6 +87,8 @@ export interface FarmerFieldProfile {
   pesticideFrequency?: 'none' | 'moderate' | 'intensive';
   sowingStage?: 'germination' | 'vegetative' | 'flowering' | 'maturing';
   soilHealthScore?: number;
+  isEvaluationMode?: boolean;
+  evaluationScenarioLabel?: string;
 }
 
 export interface NasaClimateData {
