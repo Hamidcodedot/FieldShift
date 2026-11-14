@@ -1,26 +1,72 @@
-# FieldShift — 24/7 Satellite Farm Intelligence & Crop Rotation Platform
+<div align="center">
 
-> **"Your farm needs 24/7 surveillance and crop rotation to restore and improve the soil. Our app is here."**
+# FieldShift
+### 24/7 Satellite Farm Intelligence & Crop Rotation Platform
 
-**FieldShift** is an open-science precision agriculture platform built for the **2026 NASA International Space Apps Challenge** (*Field Shift: Adapting Farms with NASA Data*). By combining **NASA Earth Observations** with local soil physics, multi-objective crop rotation optimization, live agricultural weather, and an on-demand **AI Senior Agronomist**, FieldShift helps farmers worldwide conserve groundwater, rebuild soil organic carbon, and strengthen climate resilience.
+> *"Your farm needs 24/7 surveillance and crop rotation to restore and improve the soil. Our app is here."*
 
-| Resource | Link |
+[![NASA Space Apps 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026%20Global%20Submission-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/)
+[![Live Demo](https://img.shields.io/badge/Live%20Web%20App-field--shift--green.vercel.app-10B981?style=for-the-badge&logo=vercel&logoColor=white)](https://field-shift-green.vercel.app)
+[![Android APK](https://img.shields.io/badge/Android%20APK-v1.0.0%20Release-3DDC84?style=for-the-badge&logo=android&logoColor=black)](https://github.com/Hamidcodedot/FieldShift/releases/latest)
+
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](#production-tech-stack)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=flat-square&logo=typescript&logoColor=white)](#production-tech-stack)
+[![Capacitor 8](https://img.shields.io/badge/Capacitor-8%20Android-119EFF?style=flat-square&logo=capacitor&logoColor=white)](#production-tech-stack)
+[![Gemini 2.5 Flash](https://img.shields.io/badge/AI%20Agronomist-Gemini%202.5%20Flash-4285F4?style=flat-square&logo=googlegemini&logoColor=white)](#ai-senior-agronomist)
+[![NASA POWER](https://img.shields.io/badge/Data-NASA%20POWER%20v2-FC3D21?style=flat-square&logo=nasa&logoColor=white)](#how-nasa-earth-data-powers-fieldshift)
+
+**[Launch Live App](https://field-shift-green.vercel.app)** &nbsp;•&nbsp; **[Download Android APK (v1.0.0)](https://github.com/Hamidcodedot/FieldShift/releases/latest)** &nbsp;•&nbsp; **[Explore Source Code](https://github.com/Hamidcodedot/FieldShift)**
+
+</div>
+
+---
+
+## Why FieldShift?
+
+Farmers worldwide confront shifting thermal regimes, erratic rainfall, depleted aquifers, and degraded soil biology. Continuous monocropping (such as Rice–Wheat in the Indo-Gangetic Plains or Corn–Soy in the US Midwest) accelerates subsoil compaction, soil organic carbon (SOC) loss, and pest vulnerability.
+
+| Traditional Monocropping | FieldShift + NASA Earth Observations |
 | :--- | :--- |
-| **Live Web & Mobile App** | **[field-shift-green.vercel.app](https://field-shift-green.vercel.app)** |
-| **Android APK (v1.0.0)** | **[Download Latest Release](https://github.com/Hamidcodedot/FieldShift/releases/latest)** |
-| **Source Code** | **[github.com/Hamidcodedot/FieldShift](https://github.com/Hamidcodedot/FieldShift)** |
+| **Blind Irrigation:** Guessing water needs without root-zone visibility | **NASA `GWETROOT` Calibration:** Balances crop water demand against 0–100 cm root-zone wetness and precipitation |
+| **Synthetic Nitrogen Dependency:** Rising urea costs & nitrate runoff | **Biological Nitrogen Fixation:** Multi-season legume rotations modeled to replenish soil nitrogen ($\Delta N$ kg/ha) |
+| **Recurring Pest & Fungal Cycles:** Yield loss from repeated plant families | **Botanical Family Alternation:** Automated alerts and solver constraints break Take-all, rootworm, and nematode cycles |
+| **Generic, Static Advice:** One-size-fits-all seasonal pamphlets | **24/7 AI Senior Agronomist:** Gemini 2.5 Flash grounded in your exact GPS field, sowing date, soil, and NASA telemetry (with offline fallback) |
 
 ---
 
-## Executive Overview
+## How NASA Earth Data Powers FieldShift
 
-Farmers worldwide confront shifting thermal regimes, erratic rainfall distributions, depleted aquifers, and degraded soil biology. Continuous monocropping (such as Rice–Wheat in the Indo-Gangetic Plains or Corn–Soy in the US Midwest) accelerates subsoil compaction, soil organic carbon (SOC) loss, and pest vulnerability.
+FieldShift queries the **NASA POWER API v2** (`climatology/point`, Agroclimatology `AG` community) with `0.5°` spatial grid snapping and `localStorage` caching, falling back automatically to 23 calibrated regional baselines when offline.
 
-**FieldShift** serves as a 24/7 digital agronomist and satellite monitoring companion—synthesizing **NASA POWER Earth Observations** with field-level soil profiles, botanical invariants, and farmer priorities to formulate, evaluate, and simulate multi-season crop rotation strategies that replenish soil nitrogen, reduce irrigation demand, and protect farm livelihoods.
+| NASA POWER Parameter | Physical Measurement | How FieldShift Uses It |
+| :--- | :--- | :--- |
+| `GWETROOT` | Root-zone soil wetness (0–100 cm) | Calibrates Water Resilience Index (WRI) & flags moisture-deficit irrigation risks |
+| `PRECTOTCORR` | Bias-corrected precipitation | Computes seasonal water balance against crop water requirements |
+| `T2M`, `T2M_MAX`, `T2M_MIN` | 2-meter air temperature (mean, max, min) | Evaluates thermal suitability & heat-stress penalties across growing seasons |
+| `ALLSKY_SFC_SW_DWN` | All-sky surface shortwave downward irradiance | Models solar radiation availability for crop biomass & growth duration |
+| `RH2M`, `WS10M`, `TS` | Relative humidity, 10m wind speed, earth skin temp | Enriches agroclimatology profiling & evapotranspiration context |
 
 ---
 
-## Core System Architecture
+## Core Capabilities
+
+* **GPS Field Mapping & Multi-Field Management:** Guided onboarding wizard, automatic GPS location detection, reverse geocoding, interactive Leaflet satellite map with custom polygon boundary drawing, and multi-field profile management.
+* **Multi-Objective Rotation Solver:** Generates and compares **3 optimized 3-year / 6-season strategies** (*Soil Regenerator*, *Drought & Climate Shield*, *Balanced Market & Food Security*) plus an interactive **Custom Rotation Builder** across **21 calibrated crops**.
+* **Operational Crop Calendar & Live Weather:** Tracks current phenological growth stages from sowing date, planting/harvest windows, and live 5-day / 7-day agricultural weather forecasts via **Open-Meteo**.
+* **AI Senior Agronomist & Voice Assistant:** Powered by **Google Gemini 2.5 Flash** via a secure Vercel Serverless backend (`/api/chat`) with automatic offline-first deterministic fallback and native Android Speech Recognition / Text-to-Speech.
+
+---
+
+## Multi-Objective Optimization & Architecture
+
+FieldShift formulates crop rotation as a constrained multi-objective optimization problem:
+
+$$\max \; J(X) = w_S \cdot \text{SHI}(X) + w_W \cdot \text{WRI}(X) + w_E \cdot \text{ESI}(X) - w_R \cdot \text{CRP}(X)$$
+
+Where **SHI** is Soil Health Index, **WRI** is Water Resilience Index, **ESI** is Economic Security Index, and **CRP** is Climate Risk Penalty.
+
+<details>
+<summary><strong>View Full System Architecture Diagram</strong></summary>
 
 ```
 [ GPS Auto-Location / Interactive Map / Field Boundary ]
@@ -49,9 +95,6 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
                                ▼
 ┌─────────────────────────────────────────────────────────────┐
 │           Multi-Objective Optimization Solver               │
-│  max J(X) = w_S · SHI(X) + w_W · WRI(X) + w_E · ESI(X)      │
-│             - w_R · CRP(X)                                  │
-│                                                             │
 │  • Strategy 1: Soil Regenerator & Nitrogen Builder          │
 │  • Strategy 2: Drought & Climate Resilience Shield          │
 │  • Strategy 3: Balanced High-Value Market & Food Security   │
@@ -69,58 +112,32 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
 └─────────────────────────────────────────────────────────────┘
 ```
 
----
-
-## Key Features
-
-1. **Global Agro-Ecological Profiling & Multi-Field Management:**
-   - Calibrated regional baselines across **23 global agro-ecological profiles** (spanning South Asia, US Midwest, Sub-Saharan Africa, Mediterranean Basin, Latin America, Australia, and more).
-   - Guided onboarding wizard, automatic GPS coordinate detection, reverse geocoding, and interactive polygon field boundary drawing on Leaflet satellite maps.
-   - Manage multiple farm fields with individual soil texture, organic matter, irrigation method, and sowing date tracking.
-
-2. **Real-Time NASA Data & Live Agricultural Weather:**
-   - Live queries to the **NASA POWER API v2** (`climatology/point`) with automatic fallback to pre-calibrated regional climatology baselines for offline resilience.
-   - Spatial grid snapping (`0.5°` resolution) and `localStorage` caching for fast responsiveness.
-   - Live 5-day and 7-day field weather conditions and forecasts via the **Open-Meteo** agricultural forecast API.
-
-3. **Multi-Objective Crop Rotation Optimization:**
-   - **Soil Health Index (SHI):** Evaluates biological nitrogen fixation ($\Delta N$ kg/ha), soil organic carbon accrual, and root architecture diversity.
-   - **Water Resilience Index (WRI):** Balances crop water demand against NASA precipitation and root-zone soil wetness (`GWETROOT`).
-   - **Economic Security Index (ESI):** Evaluates revenue stability across diversified crop portfolios.
-   - **Climate Risk Penalty (CRP):** Quantifies heat and drought exposure across growing seasons.
-
-4. **Custom Rotation Builder & Operational Crop Calendar:**
-   - Customize 6-season rotations from a database of **21 calibrated crops** with real-time botanical family repetition alerts.
-   - Visual 3-year timeline and operational crop calendar tracking current phenological growth stages, sowing windows, and harvest milestones.
-
-5. **AI Senior Agronomist & Voice Assistant:**
-   - Built-in **AI Senior Agronomist** powered by **Google Gemini 2.5 Flash** via a secure Vercel Serverless backend (`/api/chat`), grounded in your active field profile, NASA POWER telemetry, soil health diagnostics, and rotation plan.
-   - Automatic **offline-first deterministic fallback** ensures field-grounded agronomic guidance remains available even without internet connectivity.
-   - Supports voice input and audio playback via Capacitor Speech Recognition / Text-to-Speech on Android and Web Speech API on desktop browsers.
+</details>
 
 ---
 
 ## Production Tech Stack
 
-- **Frontend Framework:** React 19 + TypeScript
-- **Build System:** Vite
-- **AI Backend:** Vercel Serverless Function (`/api/chat`) + Google Gemini 2.5 Flash (with offline-first deterministic fallback)
-- **Mobile Runtime:** Capacitor 8 (Android APK: `org.fieldshift.app`)
-- **Styling & Design System:** Tailwind CSS v4 (1px hairline borders, light/dark themes)
-- **Vector Iconography:** Lucide React
-- **Geospatial Mapping:** Leaflet (Esri World Imagery / OpenStreetMap, with optional Google Satellite Hybrid & Terrain layers)
-- **Data Protocols:** NASA POWER REST API v2, Open-Meteo Forecast API
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | React 19, TypeScript, Vite, Tailwind CSS v4, Lucide React |
+| **Geospatial** | Leaflet (Esri World Imagery / OpenStreetMap, optional Google Satellite Hybrid & Terrain) |
+| **AI Backend** | Vercel Serverless Function (`/api/chat`) + Google Gemini 2.5 Flash + Offline Deterministic Fallback |
+| **Mobile** | Capacitor 8 Android (`org.fieldshift.app`) with native Speech Recognition & Text-to-Speech |
+| **Earth & Weather APIs** | NASA POWER REST API v2, Open-Meteo Forecast API |
 
 ---
 
-## Quickstart & Local Setup
+## Local Setup & Build
+
+<details>
+<summary><strong>Installation, Environment Variables & Android Sync Instructions</strong></summary>
 
 ### Prerequisites
-- Node.js 18+ (tested on Node v24)
-- npm 9+
-- Android Studio / JDK 17+ *(optional, only for building the Android APK)*
+- Node.js 18+ (tested on Node v24) & npm 9+
+- Android Studio / JDK 17+ *(optional, for building the Android APK)*
 
-### Installation & Run
+### Quickstart
 
 ```bash
 # 1. Clone repository
@@ -132,20 +149,17 @@ npm install
 
 # 3. (Optional) Configure environment variables
 cp .env.example .env
-# Add VITE_GOOGLE_MAPS_API_KEY if you want Google Satellite Hybrid/Terrain layers
-# Set GEMINI_API_KEY in Vercel Environment Variables for the /api/chat backend
+# Add VITE_GOOGLE_MAPS_API_KEY for optional Google Satellite Hybrid/Terrain layers
+# Set GEMINI_API_KEY in Vercel Environment Variables for /api/chat
 
 # 4. Launch development server
 npm run dev
-
-# 5. Open in browser
-http://localhost:5173
 ```
 
 ### Production Build & Android Sync
 
 ```bash
-# Web production build
+# Build web bundle
 npm run build
 npm run preview
 
@@ -153,9 +167,11 @@ npm run preview
 npx cap sync android
 ```
 
+</details>
+
 ---
 
-## Scientific Grounding & Data Sources
+## Scientific Grounding & References
 
 - **NASA POWER Project:** Agroclimatology Archive, NASA Langley Research Center (`T2M`, `T2M_MAX`, `T2M_MIN`, `PRECTOTCORR`, `GWETROOT`, `ALLSKY_SFC_SW_DWN`, `RH2M`, `WS10M`, `TS`).
 - **NASA MERRA-2:** Modern-Era Retrospective analysis for Research and Applications, Version 2 (underlying NASA POWER meteorology).
@@ -163,3 +179,12 @@ npx cap sync android
 - **Open-Meteo:** High-resolution agricultural weather & soil moisture forecast API.
 - **FAO-56:** Allen, R. G., et al. *Crop evapotranspiration - Guidelines for computing crop water requirements*.
 - **RothC-26.3:** Coleman, K. & Jenkinson, D. S. *A model for the turnover of carbon in soil*.
+
+---
+
+<div align="center">
+
+Built with dedication for the **2026 NASA International Space Apps Challenge**  
+[Live Web App](https://field-shift-green.vercel.app) &nbsp;•&nbsp; [Android APK v1.0.0](https://github.com/Hamidcodedot/FieldShift/releases/latest) &nbsp;•&nbsp; [GitHub Repository](https://github.com/Hamidcodedot/FieldShift)
+
+</div>
