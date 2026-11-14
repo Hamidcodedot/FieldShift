@@ -2,7 +2,7 @@
 
 > **"Your farm needs 24/7 surveillance and crop rotation to restore and improve the soil. Our app is here."**
 
-**FieldShift** is an enterprise-grade, open-science precision agriculture platform built for the **2026 NASA International Space Apps Challenge** (*Field Shift: Adapting Farms with NASA Data*). By combining continuous **NASA Earth Observations** with local soil physics, multi-objective rotation optimization, and an on-demand **AI Senior Agronomist**, FieldShift empowers farmers worldwide to protect aquifers, rebuild soil organic carbon, and maximize long-term yield resilience.
+**FieldShift** is an open-science precision agriculture platform built for the **2026 NASA International Space Apps Challenge** (*Field Shift: Adapting Farms with NASA Data*). By combining **NASA Earth Observations** with local soil physics, multi-objective crop rotation optimization, live agricultural weather, and an on-demand **AI Senior Agronomist**, FieldShift helps farmers worldwide conserve groundwater, rebuild soil organic carbon, and strengthen climate resilience.
 
 | Resource | Link |
 | :--- | :--- |
@@ -16,34 +16,34 @@
 
 Farmers worldwide confront shifting thermal regimes, erratic rainfall distributions, depleted aquifers, and degraded soil biology. Continuous monocropping (such as Rice–Wheat in the Indo-Gangetic Plains or Corn–Soy in the US Midwest) accelerates subsoil compaction, soil organic carbon (SOC) loss, and pest vulnerability.
 
-**FieldShift** acts as a 24/7 digital agronomist and satellite monitoring companion—synthesizing **NASA Earth Observations** with local soil physics, botanical invariants, and farmer priorities to formulate, evaluate, and simulate multi-season crop rotation strategies that replenish soil nitrogen, conserve irrigation water, and build climate resilience.
+**FieldShift** serves as a 24/7 digital agronomist and satellite monitoring companion—synthesizing **NASA POWER Earth Observations** with field-level soil profiles, botanical invariants, and farmer priorities to formulate, evaluate, and simulate multi-season crop rotation strategies that replenish soil nitrogen, reduce irrigation demand, and protect farm livelihoods.
 
 ---
 
 ## Core System Architecture
 
 ```
-[ Interactive Farm Coordinates / Region Preset ]
+[ GPS Auto-Location / Interactive Map / Field Boundary ]
                        │
                        ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                 NASA Earth Data Pipeline                    │
-│  • NASA POWER API v2: Hourly, Daily & 30-Year Climatology   │
-│  • Variables: T2M (Mean), T2M_MAX/MIN, PRECTOTCORR,        │
-│    GWETROOT (0-100cm Root-Zone Wetness), ALLSKY_SFC_SW_DWN  │
-│  • Grid Quantization: Snapped to 0.5° Centroids (95% Cache) │
-│  • Open-Meteo Agro API: Real-time FAO-56 ET0 Forecast       │
-│  • ISRIC SoilGrids: 250m Global Soil Texture & Carbon       │
+│  • NASA POWER API v2 (Climatology Point, AG Community)      │
+│  • Variables: T2M, T2M_MAX, T2M_MIN, PRECTOTCORR,           │
+│    GWETROOT (Root-Zone Wetness), ALLSKY_SFC_SW_DWN,         │
+│    RH2M, WS10M, TS                                          │
+│  • Grid Quantization: 0.5° Centroids + LocalStorage Cache   │
+│  • Open-Meteo Forecast API: Live 5-Day & 7-Day Agro Weather │
 └──────────────────────────────┬──────────────────────────────┘
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────┐
 │          Agronomic & Soil Health Invariant Engine           │
 │  • Botanical Family Alternation (Pest / Fungal Disruption)  │
-│  • Biological Nitrogen Fixation (BNF) Rhizobial Stoichiometry│
-│  • FAO-56 Dual Crop Coefficient (Kc) Water Deficit Balance  │
-│  • Soil Organic Carbon (SOC) First-Order Humification       │
-│  • Extreme Heat & Drought Sterility Risk Penalties          │
+│  • Biological Nitrogen Fixation (BNF) Stoichiometry         │
+│  • Crop Water Demand vs. Root-Zone Moisture Balance         │
+│  • Soil Organic Carbon (SOC) Accrual Modeling               │
+│  • Extreme Heat & Drought Risk Penalties                    │
 └──────────────────────────────┬──────────────────────────────┘
                                │
                                ▼
@@ -55,17 +55,17 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
 │  • Strategy 1: Soil Regenerator & Nitrogen Builder          │
 │  • Strategy 2: Drought & Climate Resilience Shield          │
 │  • Strategy 3: Balanced High-Value Market & Food Security   │
-│  • Strategy 4: Interactive Farmer Drag-and-Swap Sandbox     │
+│  • Strategy 4: Interactive Custom Rotation Builder          │
 └──────────────────────────────┬──────────────────────────────┘
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────┐
 │           Decision Support & Advisory Interface             │
-│  • Geospatial Farm Selector with NASA 0.5° Cell Overlay     │
-│  • 12-Month Agroclimatology Dashboard (Rainfall/Temp/Wetness)│
-│  • Multi-Metric Comparative Strategy Matrix                 │
-│  • 3-Year / 6-Season Sequential Timeline (Gantt)            │
-│  • Printable / PDF Field Action Plan                        │
+│  • Guided Onboarding & Multi-Field Management               │
+│  • Satellite Map Viewport & Custom Field Boundary Drawing   │
+│  • Live 5-Day Agricultural Weather & Soil Health Diagnostics│
+│  • 3-Year / 6-Season Rotation Matrix & Operational Calendar │
+│  • AI Senior Agronomist (/api/chat + Gemini 2.5 Flash)      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -73,38 +73,30 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
 
 ## Key Features
 
-1. **Global Agro-Ecological Profiling:**
-   - Pre-configured calibrated profiles for 6 major agricultural macro-regions:
-     - **South Asia (Indo-Gangetic Plains):** Punjab/Haryana Rice-Wheat aquifer depletion & hardpan disruption.
-     - **US Midwest Corn Belt:** Iowa Corn-Soy tile drainage nitrate runoff and cover crop integration.
-     - **Sub-Saharan Africa (Sahel):** Extreme drought-hardy pearl millet, sorghum, and Zaï water harvesting.
-     - **Mediterranean Basin:** Andalusia rainfed winter cereals, legumes, and vapor pressure deficit management.
-     - **Latin America (Brazilian Cerrado):** Oxisol acidity, Safrinha double-cropping, and *Brachiaria* grass mulch.
-     - **Australia (Murray-Darling):** Flash droughts, salinity hazard, and winter pulse diversification.
-   - Point-and-click coordinate selection for any location globally on an interactive Leaflet map.
+1. **Global Agro-Ecological Profiling & Multi-Field Management:**
+   - Calibrated regional baselines across **23 global agro-ecological profiles** (spanning South Asia, US Midwest, Sub-Saharan Africa, Mediterranean Basin, Latin America, Australia, and more).
+   - Guided onboarding wizard, automatic GPS coordinate detection, reverse geocoding, and interactive polygon field boundary drawing on Leaflet satellite maps.
+   - Manage multiple farm fields with individual soil texture, organic matter, irrigation method, and sowing date tracking.
 
-2. **Real-time NASA Data Integration:**
-   - Live query to NASA POWER API v2 with automatic fallback to pre-warmed 30-year climatology baselines.
-   - Spatial grid snapping (`round(coord * 2) / 2`) ensures sub-50ms responsiveness and offline resilience.
+2. **Real-Time NASA Data & Live Agricultural Weather:**
+   - Live queries to the **NASA POWER API v2** (`climatology/point`) with automatic fallback to pre-calibrated regional climatology baselines for offline resilience.
+   - Spatial grid snapping (`0.5°` resolution) and `localStorage` caching for fast responsiveness.
+   - Live 5-day and 7-day field weather conditions and forecasts via the **Open-Meteo** agricultural forecast API.
 
-3. **Multi-Objective Rotation Optimization:**
-   - **Soil Health Index (SHI):** Evaluates biological nitrogen fixation ($\Delta N$ kg/ha), humus accrual, and root architecture diversity (taproots vs. fibrous).
-   - **Water Resilience Index (WRI):** Balances crop water demand ($ET_c$) against NASA precipitation and root-zone moisture ($GWETROOT$).
-   - **Economic Security Index (ESI):** Modern Portfolio Theory revenue stability across diversified commodity markets.
-   - **Climate Risk Penalty (CRP):** Quantifies heat exposure during anthesis ($>35^\circ\text{C}$) and drought risks.
+3. **Multi-Objective Crop Rotation Optimization:**
+   - **Soil Health Index (SHI):** Evaluates biological nitrogen fixation ($\Delta N$ kg/ha), soil organic carbon accrual, and root architecture diversity.
+   - **Water Resilience Index (WRI):** Balances crop water demand against NASA precipitation and root-zone soil wetness (`GWETROOT`).
+   - **Economic Security Index (ESI):** Evaluates revenue stability across diversified crop portfolios.
+   - **Climate Risk Penalty (CRP):** Quantifies heat and drought exposure across growing seasons.
 
-4. **Interactive Crop Rotation Sandbox & Operational Calendar:**
-   - Farmers can drag-and-swap crops across 6 seasons from a library of 30+ regional crops.
-   - Real-time validation alerts for botanical family repetition (preventing Take-all, Corn Rootworm, and Soybean Cyst Nematode buildup).
-   - Operational crop calendar tracking active growth phases, planting windows, and harvest timelines.
+4. **Custom Rotation Builder & Operational Crop Calendar:**
+   - Customize 6-season rotations from a database of **21 calibrated crops** with real-time botanical family repetition alerts.
+   - Visual 3-year timeline and operational crop calendar tracking current phenological growth stages, sowing windows, and harvest milestones.
 
-5. **GPS Field Mapping, Weather & AI Senior Agronomist:**
-   - Automatic GPS location detection, interactive satellite field boundary drawing, and multi-field profile management.
-   - Live 5-day agricultural weather conditions and forecast view.
-   - Built-in **AI Senior Agronomist** powered by Google Gemini 2.5 Flash (`/api/chat` serverless backend grounded in live field & NASA telemetry) with automatic offline-first deterministic fallback and native Android Speech Recognition / Text-to-Speech.
-
-6. **Printable Farmer Action Plan:**
-   - Generates a field-ready agronomic brief with Rhizobium inoculation protocols, cover crop termination windows, and fertilizer reduction guidelines.
+5. **AI Senior Agronomist & Voice Assistant:**
+   - Built-in **AI Senior Agronomist** powered by **Google Gemini 2.5 Flash** via a secure Vercel Serverless backend (`/api/chat`), grounded in your active field profile, NASA POWER telemetry, soil health diagnostics, and rotation plan.
+   - Automatic **offline-first deterministic fallback** ensures field-grounded agronomic guidance remains available even without internet connectivity.
+   - Supports voice input and audio playback via Capacitor Speech Recognition / Text-to-Speech on Android and Web Speech API on desktop browsers.
 
 ---
 
@@ -114,10 +106,10 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
 - **Build System:** Vite
 - **AI Backend:** Vercel Serverless Function (`/api/chat`) + Google Gemini 2.5 Flash (with offline-first deterministic fallback)
 - **Mobile Runtime:** Capacitor 8 (Android APK: `org.fieldshift.app`)
-- **Styling & Design System:** Tailwind CSS v4 (Strict 8px rhythmic grid, 1px hairline borders, Zero-Emoji invariant)
+- **Styling & Design System:** Tailwind CSS v4 (1px hairline borders, light/dark themes)
 - **Vector Iconography:** Lucide React
-- **Geospatial Mapping:** Leaflet (with optional Google Satellite Hybrid & Terrain layers)
-- **Data Protocols:** NASA POWER REST API v2, ISRIC SoilGrids v2, Open-Meteo Agro API
+- **Geospatial Mapping:** Leaflet (Esri World Imagery / OpenStreetMap, with optional Google Satellite Hybrid & Terrain layers)
+- **Data Protocols:** NASA POWER REST API v2, Open-Meteo Forecast API
 
 ---
 
@@ -141,6 +133,7 @@ npm install
 # 3. (Optional) Configure environment variables
 cp .env.example .env
 # Add VITE_GOOGLE_MAPS_API_KEY if you want Google Satellite Hybrid/Terrain layers
+# Set GEMINI_API_KEY in Vercel Environment Variables for the /api/chat backend
 
 # 4. Launch development server
 npm run dev
@@ -164,8 +157,9 @@ npx cap sync android
 
 ## Scientific Grounding & Data Sources
 
-- **NASA POWER Project:** Agroclimatology Archive, NASA Langley Research Center.
-- **NASA MERRA-2:** Modern-Era Retrospective analysis for Research and Applications, Version 2 (Goddard Earth Observing System GEOS-5).
-- **NASA SMAP:** Soil Moisture Active Passive L4 Root-Zone Soil Moisture.
+- **NASA POWER Project:** Agroclimatology Archive, NASA Langley Research Center (`T2M`, `T2M_MAX`, `T2M_MIN`, `PRECTOTCORR`, `GWETROOT`, `ALLSKY_SFC_SW_DWN`, `RH2M`, `WS10M`, `TS`).
+- **NASA MERRA-2:** Modern-Era Retrospective analysis for Research and Applications, Version 2 (underlying NASA POWER meteorology).
+- **NASA SMAP:** Soil Moisture Active Passive root-zone soil moisture reference.
+- **Open-Meteo:** High-resolution agricultural weather & soil moisture forecast API.
 - **FAO-56:** Allen, R. G., et al. *Crop evapotranspiration - Guidelines for computing crop water requirements*.
 - **RothC-26.3:** Coleman, K. & Jenkinson, D. S. *A model for the turnover of carbon in soil*.
