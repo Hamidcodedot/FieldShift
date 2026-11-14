@@ -1,21 +1,29 @@
 <div align="center">
 
+<img src="./public/favicon.svg" alt="FieldShift Logo" width="84" height="84" />
+
 # FieldShift
 ### 24/7 Satellite Farm Intelligence & Crop Rotation Platform
 
 > *"Your farm needs 24/7 surveillance and crop rotation to restore and improve the soil. Our app is here."*
 
-[![NASA Space Apps 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026%20Global%20Submission-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/)
-[![Live Demo](https://img.shields.io/badge/Live%20Web%20App-field--shift--green.vercel.app-10B981?style=for-the-badge&logo=vercel&logoColor=white)](https://field-shift-green.vercel.app)
-[![Android APK](https://img.shields.io/badge/Android%20APK-v1.0.0%20Release-3DDC84?style=for-the-badge&logo=android&logoColor=black)](https://github.com/Hamidcodedot/FieldShift/releases/latest)
+<a href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/NASA%20Space%20Apps-2026%20Global%20Submission-0B3D91?style=for-the-badge&logo=nasa&logoColor=white" alt="NASA Space Apps 2026" /></a>
+<a href="https://field-shift-green.vercel.app" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Live%20Web%20App-field--shift--green.vercel.app-10B981?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" /></a>
+<a href="https://github.com/Hamidcodedot/FieldShift/releases/latest" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Android%20APK-v1.0.0%20Release-3DDC84?style=for-the-badge&logo=android&logoColor=black" alt="Android APK" /></a>
 
-[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](#production-tech-stack)
-[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=flat-square&logo=typescript&logoColor=white)](#production-tech-stack)
-[![Capacitor 8](https://img.shields.io/badge/Capacitor-8%20Android-119EFF?style=flat-square&logo=capacitor&logoColor=white)](#production-tech-stack)
-[![Gemini 2.5 Flash](https://img.shields.io/badge/AI%20Agronomist-Gemini%202.5%20Flash-4285F4?style=flat-square&logo=googlegemini&logoColor=white)](#ai-senior-agronomist)
-[![NASA POWER](https://img.shields.io/badge/Data-NASA%20POWER%20v2-FC3D21?style=flat-square&logo=nasa&logoColor=white)](#how-nasa-earth-data-powers-fieldshift)
+<br />
 
-**[Launch Live App](https://field-shift-green.vercel.app)** &nbsp;•&nbsp; **[Download Android APK (v1.0.0)](https://github.com/Hamidcodedot/FieldShift/releases/latest)** &nbsp;•&nbsp; **[Explore Source Code](https://github.com/Hamidcodedot/FieldShift)**
+<img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React 19" />
+<img src="https://img.shields.io/badge/TypeScript-6.0-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
+<img src="https://img.shields.io/badge/Capacitor-8%20Android-119EFF?style=flat-square&logo=capacitor&logoColor=white" alt="Capacitor 8" />
+<img src="https://img.shields.io/badge/AI%20Agronomist-Gemini%202.5%20Flash-4285F4?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini 2.5 Flash" />
+<img src="https://img.shields.io/badge/Data-NASA%20POWER%20v2-FC3D21?style=flat-square&logo=nasa&logoColor=white" alt="NASA POWER v2" />
+
+<br /><br />
+
+<a href="https://field-shift-green.vercel.app" target="_blank" rel="noopener noreferrer"><strong>Launch Live App</strong></a> &nbsp;•&nbsp;
+<a href="https://github.com/Hamidcodedot/FieldShift/releases/latest" target="_blank" rel="noopener noreferrer"><strong>Download Android APK (v1.0.0)</strong></a> &nbsp;•&nbsp;
+<a href="https://github.com/Hamidcodedot/FieldShift" target="_blank" rel="noopener noreferrer"><strong>Explore Source Code</strong></a>
 
 </div>
 
@@ -185,6 +193,8 @@ npx cap sync android
 <div align="center">
 
 Built with dedication for the **2026 NASA International Space Apps Challenge**  
-[Live Web App](https://field-shift-green.vercel.app) &nbsp;•&nbsp; [Android APK v1.0.0](https://github.com/Hamidcodedot/FieldShift/releases/latest) &nbsp;•&nbsp; [GitHub Repository](https://github.com/Hamidcodedot/FieldShift)
+<a href="https://field-shift-green.vercel.app" target="_blank" rel="noopener noreferrer">Live Web App</a> &nbsp;•&nbsp;
+<a href="https://github.com/Hamidcodedot/FieldShift/releases/latest" target="_blank" rel="noopener noreferrer">Android APK v1.0.0</a> &nbsp;•&nbsp;
+<a href="https://github.com/Hamidcodedot/FieldShift" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
 
 </div>
