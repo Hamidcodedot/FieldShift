@@ -425,7 +425,7 @@ export const FarmerSettingsTab: React.FC<FarmerSettingsTabProps> = ({
             </h3>
           </div>
           <span className="font-mono text-[10px] text-stone-500 dark:text-stone-400">
-            v2.4.0 (Build 2026.11)
+            v1.0.0 (Build 2026.11)
           </span>
         </div>
 

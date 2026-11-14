@@ -3,6 +3,9 @@
 > **2026 NASA Space Apps Challenge Project**  
 > **Challenge:** *Field Shift: Adapting Farms with NASA Data*  
 > **Domain:** Earth Science, Agroclimatology & Decision-Support Software  
+> **Live Web App:** [field-shift-green.vercel.app](https://field-shift-green.vercel.app)  
+> **Android APK:** [Latest GitHub Release](https://github.com/Hamidcodedot/FieldShift/releases/latest)  
+> **Repository:** [github.com/Hamidcodedot/FieldShift](https://github.com/Hamidcodedot/FieldShift)  
 
 ---
 
@@ -87,11 +90,17 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
    - **Economic Security Index (ESI):** Modern Portfolio Theory revenue stability across diversified commodity markets.
    - **Climate Risk Penalty (CRP):** Quantifies heat exposure during anthesis ($>35^\circ\text{C}$) and drought risks.
 
-4. **Interactive Crop Rotation Sandbox:**
+4. **Interactive Crop Rotation Sandbox & Operational Calendar:**
    - Farmers can drag-and-swap crops across 6 seasons from a library of 30+ regional crops.
    - Real-time validation alerts for botanical family repetition (preventing Take-all, Corn Rootworm, and Soybean Cyst Nematode buildup).
+   - Operational crop calendar tracking active growth phases, planting windows, and harvest timelines.
 
-5. **Printable Farmer Action Plan:**
+5. **GPS Field Mapping, Weather & AI Field Assistant:**
+   - Automatic GPS location detection, interactive satellite field boundary drawing, and multi-field profile management.
+   - Live 5-day agricultural weather conditions and forecast view.
+   - Built-in AI Field Chatbot and bilingual/voice assistant (with native Android Speech Recognition and Text-to-Speech via Capacitor).
+
+6. **Printable Farmer Action Plan:**
    - Generates a field-ready agronomic brief with Rhizobium inoculation protocols, cover crop termination windows, and fertilizer reduction guidelines.
 
 ---
@@ -100,9 +109,10 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
 
 - **Frontend Framework:** React 19 + TypeScript
 - **Build System:** Vite
+- **Mobile Runtime:** Capacitor 8 (Android APK: `org.fieldshift.app`)
 - **Styling & Design System:** Tailwind CSS v4 (Strict 8px rhythmic grid, 1px hairline borders, Zero-Emoji invariant)
 - **Vector Iconography:** Lucide React
-- **Geospatial Mapping:** Leaflet
+- **Geospatial Mapping:** Leaflet (with optional Google Satellite Hybrid & Terrain layers)
 - **Data Protocols:** NASA POWER REST API v2, ISRIC SoilGrids v2, Open-Meteo Agro API
 
 ---
@@ -112,29 +122,38 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall distributi
 ### Prerequisites
 - Node.js 18+ (tested on Node v24)
 - npm 9+
+- Android Studio / JDK 17+ *(optional, only for building the Android APK)*
 
 ### Installation & Run
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-username/fieldshift.git
-cd fieldshift
+git clone https://github.com/Hamidcodedot/FieldShift.git
+cd FieldShift
 
 # 2. Install dependencies
 npm install
 
-# 3. Launch development server
+# 3. (Optional) Configure environment variables
+cp .env.example .env
+# Add VITE_GOOGLE_MAPS_API_KEY if you want Google Satellite Hybrid/Terrain layers
+
+# 4. Launch development server
 npm run dev
 
-# 4. Open in browser
+# 5. Open in browser
 http://localhost:5173
 ```
 
-### Production Build
+### Production Build & Android Sync
 
 ```bash
+# Web production build
 npm run build
 npm run preview
+
+# Sync web bundle to Android Capacitor project
+npx cap sync android
 ```
 
 ---
