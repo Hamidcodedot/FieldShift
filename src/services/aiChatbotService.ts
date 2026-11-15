@@ -3,7 +3,7 @@ import { FarmerFieldProfile, AgroRegion, NasaClimateData, SoilProfile, RotationS
 import { getCropById } from '../data/crops';
 import { formatIrrigationMethod } from './fieldProfileService';
 
-const PRODUCTION_CHAT_ENDPOINT = 'https://field-shift-green.vercel.app/api/chat';
+const PRODUCTION_CHAT_ENDPOINT = 'https://greenroots-nasa.vercel.app/api/chat';
 
 export interface ChatMessage {
   id: string;

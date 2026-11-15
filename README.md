@@ -8,7 +8,7 @@
 > *"Your farm needs 24/7 surveillance and crop rotation to restore and improve the soil. Our app is here."*
 
 <a href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/NASA%20Space%20Apps-2026%20Global%20Submission-0B3D91?style=for-the-badge&logo=nasa&logoColor=white" alt="NASA Space Apps 2026" /></a>
-<a href="https://field-shift-green.vercel.app" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Live%20Web%20App-field--shift--green.vercel.app-10B981?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" /></a>
+<a href="https://greenroots-nasa.vercel.app" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Live%20Web%20App-greenroots--nasa.vercel.app-10B981?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" /></a>
 <a href="https://github.com/Hamidcodedot/FieldShift/releases/latest" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Android%20APK-v1.0.0%20Release-3DDC84?style=for-the-badge&logo=android&logoColor=black" alt="Android APK" /></a>
 
 <br />
@@ -21,7 +21,7 @@
 
 <br /><br />
 
-<a href="https://field-shift-green.vercel.app" target="_blank" rel="noopener noreferrer"><strong>Launch Live App</strong></a> &nbsp;•&nbsp;
+<a href="https://greenroots-nasa.vercel.app" target="_blank" rel="noopener noreferrer"><strong>Launch Live App</strong></a> &nbsp;•&nbsp;
 <a href="https://github.com/Hamidcodedot/FieldShift/releases/latest" target="_blank" rel="noopener noreferrer"><strong>Download Android APK (v1.0.0)</strong></a> &nbsp;•&nbsp;
 <a href="https://github.com/Hamidcodedot/FieldShift" target="_blank" rel="noopener noreferrer"><strong>Explore Source Code</strong></a>
 
@@ -224,7 +224,7 @@ npx cap sync android
 <div align="center">
 
 Built with dedication for the **2026 NASA International Space Apps Challenge**  
-<a href="https://field-shift-green.vercel.app" target="_blank" rel="noopener noreferrer">Live Web App</a> &nbsp;•&nbsp;
+<a href="https://greenroots-nasa.vercel.app" target="_blank" rel="noopener noreferrer">Live Web App</a> &nbsp;•&nbsp;
 <a href="https://github.com/Hamidcodedot/FieldShift/releases/latest" target="_blank" rel="noopener noreferrer">Android APK v1.0.0</a> &nbsp;•&nbsp;
 <a href="https://github.com/Hamidcodedot/FieldShift" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
 
