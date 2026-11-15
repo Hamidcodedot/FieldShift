@@ -47,7 +47,7 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall, depleted 
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="./docs/screenshots/01-home-dashboard.png" alt="Green Roots Home & Satellite Field Dashboard" width="100%" />
+      <img src="./docs/screenshots/01-home-dashboard.jpg" alt="Green Roots Home & Satellite Field Dashboard" width="100%" />
       <br />
       <sub><strong>1. Satellite Field Surveillance & Telemetry</strong></sub>
     </td>
@@ -64,7 +64,7 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall, depleted 
       <sub><strong>3. Live 5-Day Agro-Weather & Spray Advisory</strong></sub>
     </td>
     <td align="center" width="50%">
-      <img src="./docs/screenshots/04-ai-agronomist.png" alt="AI Senior Agronomist Grounded in NASA Data" width="100%" />
+      <img src="./docs/screenshots/04-ai-agronomist.jpg" alt="AI Senior Agronomist Grounded in NASA Data" width="100%" />
       <br />
       <sub><strong>4. AI Senior Agronomist (NASA & Field Grounded)</strong></sub>
     </td>
