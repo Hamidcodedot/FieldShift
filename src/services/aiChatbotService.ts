@@ -462,7 +462,7 @@ async function callGeminiWithFieldContext(
   const currentCropId = activeField.currentCropHistory?.currentCropId || 'wheat';
   const daysElapsed = getDaysSinceSowing(activeField.sowingDate);
 
-  const systemPrompt = `You are the FieldShift AI Agronomic Assistant, an expert agronomist providing concise, practical, highly accurate advice to a farmer.
+  const systemPrompt = `You are the Green Roots AI Agronomic Assistant, an expert agronomist providing concise, practical, highly accurate advice to a farmer.
 Always speak respectfully, clearly, and directly without fluff. No emojis.
 Use Markdown formatting with bullet points and bold headers.
 

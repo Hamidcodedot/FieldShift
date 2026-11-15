@@ -66,7 +66,7 @@ export interface TranslationDict {
 
 export const TRANSLATIONS: Record<Language, TranslationDict> = {
   en: {
-    appName: 'FieldShift',
+    appName: 'Green Roots',
     tagline: 'NASA Earth Data Farmer Advisory',
     tabHome: 'Home',
     tabField: 'My Field',

@@ -34,7 +34,7 @@ export async function getHumanReadableLocation(
       {
         headers: {
           'Accept-Language': 'en',
-          'User-Agent': 'FieldShift-AgroApp/1.0',
+          'User-Agent': 'GreenRoots-AgroApp/1.0',
         },
         signal: controller.signal,
       }

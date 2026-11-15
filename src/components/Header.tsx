@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
             <Sprout className="h-5 w-5" />
           </div>
           <span className="font-brand text-lg sm:text-xl font-bold tracking-tight text-stone-900 dark:text-stone-100">
-            FieldShift
+            Green Roots
           </span>
           <span className="inline-flex items-center gap-1 rounded-full border border-blue-200/80 bg-blue-50/80 px-2 py-0.5 text-[10px] font-montserrat font-bold text-blue-950 dark:border-blue-900/60 dark:bg-blue-950/60 dark:text-blue-200">
             <NasaLogo className="h-3.5 w-3.5" />

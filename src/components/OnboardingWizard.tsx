@@ -330,7 +330,7 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
                   <Sprout className="h-7 w-7" />
                 </div>
                 <h2 className="font-brand text-2xl sm:text-3xl font-extrabold tracking-tight text-emerald-900 dark:text-emerald-100">
-                  Welcome to FieldShift
+                  Welcome to Green Roots
                 </h2>
                 <p className="mx-auto max-w-md text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-montserrat">
                   Protect your soil, cut fertilizer costs, and plan the best next crop using NASA satellite checks.

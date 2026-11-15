@@ -57,7 +57,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="font-montserrat text-xl font-bold tracking-tight text-stone-900 print:text-black dark:text-stone-100">
-                  FieldShift: Agro-Ecological Farm Action Plan
+                  Green Roots: Agro-Ecological Farm Action Plan
                 </h1>
                 <p className="text-xs text-stone-500 print:text-stone-600 dark:text-stone-400">
                   Formulated via NASA Earth Observations (POWER and MERRA-2) • Generated on{' '}

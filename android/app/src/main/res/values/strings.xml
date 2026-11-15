@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">FieldShift</string>
-    <string name="title_activity_main">FieldShift</string>
+    <string name="app_name">Green Roots</string>
+    <string name="title_activity_main">Green Roots</string>
     <string name="package_name">org.fieldshift.app</string>
     <string name="custom_url_scheme">org.fieldshift.app</string>
     <string name="google_maps_key">YOUR_GOOGLE_MAPS_API_KEY</string>

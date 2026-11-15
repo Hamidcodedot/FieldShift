@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="./public/favicon.svg" alt="FieldShift Logo" width="84" height="84" />
+<img src="./public/favicon.svg" alt="Green Roots Logo" width="84" height="84" />
 
-# FieldShift
+# Green Roots
 ### 24/7 Satellite Farm Intelligence & Crop Rotation Platform
 
 > *"Your farm needs 24/7 surveillance and crop rotation to restore and improve the soil. Our app is here."*
@@ -29,11 +29,11 @@
 
 ---
 
-## Why FieldShift?
+## Why Green Roots?
 
 Farmers worldwide confront shifting thermal regimes, erratic rainfall, depleted aquifers, and degraded soil biology. Continuous monocropping (such as Rice–Wheat in the Indo-Gangetic Plains or Corn–Soy in the US Midwest) accelerates subsoil compaction, soil organic carbon (SOC) loss, and pest vulnerability.
 
-| Traditional Monocropping | FieldShift + NASA Earth Observations |
+| Traditional Monocropping | Green Roots + NASA Earth Observations |
 | :--- | :--- |
 | **Blind Irrigation:** Guessing water needs without root-zone visibility | **NASA `GWETROOT` Calibration:** Balances crop water demand against 0–100 cm root-zone wetness and precipitation |
 | **Synthetic Nitrogen Dependency:** Rising urea costs & nitrate runoff | **Biological Nitrogen Fixation:** Multi-season legume rotations modeled to replenish soil nitrogen ($\Delta N$ kg/ha) |
@@ -47,7 +47,7 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall, depleted 
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="./docs/screenshots/01-home-dashboard.png" alt="FieldShift Home & Satellite Field Dashboard" width="100%" />
+      <img src="./docs/screenshots/01-home-dashboard.png" alt="Green Roots Home & Satellite Field Dashboard" width="100%" />
       <br />
       <sub><strong>1. Satellite Field Surveillance & Telemetry</strong></sub>
     </td>
@@ -73,11 +73,11 @@ Farmers worldwide confront shifting thermal regimes, erratic rainfall, depleted 
 
 ---
 
-## How NASA Earth Data Powers FieldShift
+## How NASA Earth Data Powers Green Roots
 
-FieldShift queries the **NASA POWER API v2** (`climatology/point`, Agroclimatology `AG` community) with `0.5°` spatial grid snapping and `localStorage` caching, falling back automatically to 23 calibrated regional baselines when offline.
+Green Roots queries the **NASA POWER API v2** (`climatology/point`, Agroclimatology `AG` community) with `0.5°` spatial grid snapping and `localStorage` caching, falling back automatically to 23 calibrated regional baselines when offline.
 
-| NASA POWER Parameter | Physical Measurement | How FieldShift Uses It |
+| NASA POWER Parameter | Physical Measurement | How Green Roots Uses It |
 | :--- | :--- | :--- |
 | `GWETROOT` | Root-zone soil wetness (0–100 cm) | Calibrates Water Resilience Index (WRI) & flags moisture-deficit irrigation risks |
 | `PRECTOTCORR` | Bias-corrected precipitation | Computes seasonal water balance against crop water requirements |
@@ -98,7 +98,7 @@ FieldShift queries the **NASA POWER API v2** (`climatology/point`, Agroclimatolo
 
 ## Multi-Objective Optimization & Architecture
 
-FieldShift formulates crop rotation as a constrained multi-objective optimization problem:
+Green Roots formulates crop rotation as a constrained multi-objective optimization problem:
 
 $$\max \; J(X) = w_S \cdot \text{SHI}(X) + w_W \cdot \text{WRI}(X) + w_E \cdot \text{ESI}(X) - w_R \cdot \text{CRP}(X)$$
 

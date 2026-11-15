@@ -1,6 +1,6 @@
 /**
  * Vercel Serverless Function: /api/chat
- * Proxies FieldShift Agronomist AI requests to Google Gemini 2.5 Flash
+ * Proxies Green Roots Agronomist AI requests to Google Gemini 2.5 Flash
  * while keeping GEMINI_API_KEY strictly on the server.
  */
 
@@ -60,7 +60,7 @@ function buildAgronomistSystemPrompt(ctx: NonNullable<IncomingRequest['body']>['
       ? c.rotationSequence.join(' -> ')
       : 'Not specified';
 
-  return `You are the FieldShift Senior Agronomist — an expert in precision agronomy, FAO-56 irrigation scheduling, biological nitrogen fixation, integrated pest management, and climate-resilient crop rotation.
+  return `You are the Green Roots Senior Agronomist — an expert in precision agronomy, FAO-56 irrigation scheduling, biological nitrogen fixation, integrated pest management, and climate-resilient crop rotation.
 
 COMMUNICATION STANDARDS:
 - Speak like a trusted, seasoned field agronomist: direct, respectful, practical, and free of filler or fluff.

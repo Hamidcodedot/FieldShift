@@ -87,7 +87,7 @@ export const FarmerSettingsTab: React.FC<FarmerSettingsTabProps> = ({
       imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80',
       tag: 'Satellite Telemetry',
       summary:
-        'FieldShift ingests spaceborne atmospheric and soil measurements from NASA satellites directly to your parcel coordinates.',
+        'Green Roots ingests spaceborne atmospheric and soil measurements from NASA satellites directly to your parcel coordinates.',
       points: [
         'NASA POWER (Prediction of Worldwide Energy Resources): Provides daily solar irradiance, relative humidity, and surface air temperature calibrated to your GPS coordinates.',
         'NASA MERRA-2: Global climate reanalysis assimilating satellite observations to calculate 30-year precipitation patterns and drought likelihood.',
@@ -415,13 +415,13 @@ export const FarmerSettingsTab: React.FC<FarmerSettingsTabProps> = ({
         </div>
       </div>
 
-      {/* 5. About FieldShift */}
+      {/* 5. About Green Roots */}
       <div className="card-chai p-4 sm:p-5">
         <div className="flex items-center justify-between border-b border-stone-200/70 pb-3 mb-3.5 dark:border-stone-800">
           <div className="flex items-center gap-2">
             <NasaLogo className="h-5 w-5" />
             <h3 className="font-montserrat text-xs sm:text-sm font-semibold text-stone-900 dark:text-stone-100">
-              About FieldShift
+              About Green Roots
             </h3>
           </div>
           <span className="font-mono text-[10px] text-stone-500 dark:text-stone-400">
@@ -430,7 +430,7 @@ export const FarmerSettingsTab: React.FC<FarmerSettingsTabProps> = ({
         </div>
 
         <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
-          FieldShift is an open-access precision agro-ecological decision support platform developed for the{' '}
+          Green Roots is an open-access precision agro-ecological decision support platform developed for the{' '}
           <strong className="text-stone-900 dark:text-stone-100 font-semibold">
             NASA International Space Apps Challenge
           </strong>
